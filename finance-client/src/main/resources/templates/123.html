@@ -1,0 +1,178 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width" name="viewport">
+    <title>快捷支付</title>
+    <link rel="stylesheet" href="/unspay-creditCardRepayment-business/h5/pay/css/index.css">
+    <script type="text/javascript" src="/unspay-creditCardRepayment-business/static/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        // 响应式布局			document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';			window.addEventListener('resize', function() {				document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';			})		</script>
+</head>
+<body>
+<div class="unspay clearfix">
+    <div class="content clearfix">
+        <form action="" class="clearfix" id="info" method="post">
+            <input type="hidden" value="6212263100037369902" id="cardNo" name="cardNo">
+            <input type="hidden" value="4218" id="orderId" name="orderId">
+            <input type="hidden" value="D" id="cardType" name="cardType">
+            <input type="hidden" value="http://huanghongfei.free.ngrok.cc/pay/back/unspay/delegatePayBack" id="delegatePayResponseUrl" name="delegatePayResponseUrl">
+            <div class="content-top"><p class="zfje">支付金额</p>
+                <p class="zfje-money">¥2.0</p></div>
+            <div class="card-type" style="padding: 0.25rem 0;">
+                <p class="ddbh">商户名称: 荣耀致新（重庆）网络科技有限公司</p>
+                <p class="ddbh">订单编号: 1756</p></div>
+            <div class="clearfix cardTel">
+                <div class="card-type" style="margin-bottom:0"><span class="sub-type">卡类型</span>
+                    <div class="type-right"><p class="icbc"><span>招商银行</span> <span>借记卡</span></p>
+                        <p class="weih">622588****0173</p></div>
+                </div>
+                <div class="mes-content ">
+                    <p class="name clearfix" style="margin-top: 0.2rem;border-bottom: none">
+                    <label class="sub-name">手机号</label>
+                        <input type="text" placeholder="请填写您在该银行预留的手机号" id="phoneNo" name="phoneNo" value="18996121709"></p>
+                </div>
+            </div>
+            <p class="xieyi">
+                <input type="checkbox" style="vertical-align: middle;" id="agree"/>
+                <span style="vertical-align: middle;">&nbsp;我已阅读</span>
+                <a href="/unspay-creditCardRepayment-business/h5/pay/unspay_xieyi.html">
+                    <em style="color: #007AFF;font-style: normal;font-size: 0.22rem;vertical-align: middle;">《银生宝快捷支付协议》</em></a>
+            </p>
+            <div style="width:92%;margin:0.8rem auto 1.5rem auto;">
+                <button id="btnSubmit" type="button">下一步</button>
+            </div>
+        </form>
+    </div>
+    <div class="logo1 clearfix" style="text-align: center;margin-top: 0.3rem;">
+        <img src="/unspay-creditCardRepayment-business/h5/pay/img/logo.png" alt=""/>
+    </div>
+</div>        <!--提示弹框-->
+<div class="mask"></div>
+<div class="alert">
+    <h1>温馨提示</h1>
+    <p>不正确</p>
+    <span class="iknow">知道了</span></div>
+<script type="text/javascript">
+    $("#agree").removeAttr("checked");
+    var phone = $("#phoneNo");
+    agree = $("#agree");
+    input = $("form").find("input");
+    var a = true, b = true;
+    var btnSubmit = document.getElementById("btnSubmit");
+    var reg1 = /^1[34578]\d{9}$/;
+
+    function check() {
+        if (!reg1.test(phone.val())) {
+            shown("手机号格式不正确");
+            a = false;
+            return;
+        } else {
+            a = true;
+        }
+        if (!$("#agree").is(':checked')) {
+            shown("同意支付协议之后方可付款！");
+            b = false;
+            return;
+        } else {
+            b = true;
+        }
+        return true;
+    };
+    agree.click(function () {
+        if ($(this).is(":checked")) {
+            b = true;
+        } else {
+            b = false;
+        }
+        ss();
+});
+phone.on("input", function () {
+    if ($(this).val() == "") {
+        a = false;
+    } else {
+        a = true;
+    }
+    ss();
+});
+btnSubmit.onclick = function () {
+    if (check()) {
+        btnSubmit.setAttribute("disabled", true);
+        $.ajax({
+            type: "post",
+            url: "http://180.166.114.151:28084/unspay-creditCardRepayment-business//quickPayWap/auth",
+            data: $("#info").serialize(),
+            dataType: 'json',
+            error: function (data) {
+                $("#btnSubmit").removeAttr("disabled");
+                shown("Connection error");
+            },
+            success: function (data) {
+                $("#btnSubmit").removeAttr("disabled");
+                if ("0000" == data.result_code) {
+                    document.getElementById('info').action = "http://180.166.114.151:28084/unspay-creditCardRepayment-business//quickPayWap/sendVerifyCode";
+                    document.getElementById('info').submit();
+                } else {
+                    shown(data.result_msg);
+                }
+            }
+        });
+    }
+};
+
+function ss() {
+    if (a && b) {
+        btnSubmit.style.backgroundColor = "#0068B7";
+        btnSubmit.style.pointerEvents = "auto";
+    } else {
+        btnSubmit.style.backgroundColor = "#DFE1E5";
+        btnSubmit.style.pointerEvents = "none";
+        btnSubmit.type = "button";
+    }
+};
+
+function closed(target) {
+    $(".mask").hide();
+    $(".alert").hide();
+};
+
+function shown(mes) {
+    var ele = document.documentElement || document.dody;
+    var x = (ele.clientWidth - $(".alert").width()) / 2;
+    var y = (ele.clientHeight - $(".alert").height()) / 2;
+    $(".alert").css({left: x, top: y});
+    $(".mask").show();
+    $(".alert").show();
+    $(".alert").find("p").html(mes);
+};$(".iknow").on("click", function () {
+    closed();
+});
+$(function () {
+    btnSubmit.style.backgroundColor = "#0068B7";
+    btnSubmit.style.pointerEvents = "auto";
+});        </script>        <!--手机号 -->
+<script>            $("#phoneNo").keyup(function () {
+    var aaa = $("#phoneNo").val();
+    if (aaa.length >= 1) {
+        $("#phoneNo").css("paddingRight", "0.6rem");
+        $("#img").show();
+        $("#img").click(function () {
+            $("#phoneNo").val('');
+            $("#img").hide();
+            $("#phoneNo").css("paddingRight", "0rem");
+        });
+    } else (aaa.length == 0)
+    {
+        $("#img").hide();
+        $("#phoneNo").css("paddingRight", "0rem");
+    }
+    ;
+});
+var scrollHeight = $(document.body).height();
+var clientHeight = $(window).height();
+if (scrollHeight < clientHeight) {
+    $(".logo1").css({'width': '100%', 'position': 'absolute', 'textAlign': 'center', 'bottom': '0',});
+} else {
+    $(".logo1").css({'height': 'scrollHeight', 'textAlign': 'center'});
+}        </script>
+</body>
+</html>

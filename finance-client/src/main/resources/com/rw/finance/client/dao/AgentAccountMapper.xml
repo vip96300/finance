@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.AgentAccountMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.AgentAccount">
+    <id column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="activate_share_rate" jdbcType="DOUBLE" property="activateShareRate" />
+    <result column="agent_id" jdbcType="BIGINT" property="agentId" />
+    <result column="cash_income" jdbcType="DOUBLE" property="cashIncome" />
+    <result column="cash_total" jdbcType="DOUBLE" property="cashTotal" />
+    <result column="lock_balance" jdbcType="DOUBLE" property="lockBalance" />
+    <result column="repay_income" jdbcType="DOUBLE" property="repayIncome" />
+    <result column="repay_total" jdbcType="DOUBLE" property="repayTotal" />
+    <result column="settle_circle" jdbcType="INTEGER" property="settleCircle" />
+    <result column="settle_rate" jdbcType="DOUBLE" property="settleRate" />
+    <result column="repay_share_rate" jdbcType="DOUBLE" property="repayShareRate" />
+    <result column="usable_balance" jdbcType="DOUBLE" property="usableBalance" />
+    <result column="user_rate" jdbcType="DOUBLE" property="userRate" />
+    <result column="borrow_share_rate" jdbcType="DOUBLE" property="borrowShareRate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    account_id, activate_share_rate, agent_id, cash_income, cash_total, lock_balance, 
+    repay_income, repay_total, settle_circle, settle_rate, repay_share_rate, usable_balance, 
+    user_rate, borrow_share_rate
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.AgentAccountExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from agent_account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from agent_account
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from agent_account
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.AgentAccountExample">
+    delete from agent_account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rw.finance.common.entity.AgentAccount">
+    insert into agent_account (account_id, activate_share_rate, agent_id, 
+      cash_income, cash_total, lock_balance, 
+      repay_income, repay_total, settle_circle, 
+      settle_rate, repay_share_rate, usable_balance, 
+      user_rate, borrow_share_rate)
+    values (#{accountId,jdbcType=BIGINT}, #{activateShareRate,jdbcType=DOUBLE}, #{agentId,jdbcType=BIGINT}, 
+      #{cashIncome,jdbcType=DOUBLE}, #{cashTotal,jdbcType=DOUBLE}, #{lockBalance,jdbcType=DOUBLE}, 
+      #{repayIncome,jdbcType=DOUBLE}, #{repayTotal,jdbcType=DOUBLE}, #{settleCircle,jdbcType=INTEGER}, 
+      #{settleRate,jdbcType=DOUBLE}, #{repayShareRate,jdbcType=DOUBLE}, #{usableBalance,jdbcType=DOUBLE}, 
+      #{userRate,jdbcType=DOUBLE}, #{borrowShareRate,jdbcType=DOUBLE})
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="accountId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.AgentAccount">
+    insert into agent_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="activateShareRate != null">
+        activate_share_rate,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="cashIncome != null">
+        cash_income,
+      </if>
+      <if test="cashTotal != null">
+        cash_total,
+      </if>
+      <if test="lockBalance != null">
+        lock_balance,
+      </if>
+      <if test="repayIncome != null">
+        repay_income,
+      </if>
+      <if test="repayTotal != null">
+        repay_total,
+      </if>
+      <if test="settleCircle != null">
+        settle_circle,
+      </if>
+      <if test="settleRate != null">
+        settle_rate,
+      </if>
+      <if test="repayShareRate != null">
+        repay_share_rate,
+      </if>
+      <if test="usableBalance != null">
+        usable_balance,
+      </if>
+      <if test="userRate != null">
+        user_rate,
+      </if>
+      <if test="borrowShareRate != null">
+        borrow_share_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="activateShareRate != null">
+        #{activateShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="cashIncome != null">
+        #{cashIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="cashTotal != null">
+        #{cashTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="lockBalance != null">
+        #{lockBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="repayIncome != null">
+        #{repayIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="repayTotal != null">
+        #{repayTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="settleCircle != null">
+        #{settleCircle,jdbcType=INTEGER},
+      </if>
+      <if test="settleRate != null">
+        #{settleRate,jdbcType=DOUBLE},
+      </if>
+      <if test="repayShareRate != null">
+        #{repayShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="usableBalance != null">
+        #{usableBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userRate != null">
+        #{userRate,jdbcType=DOUBLE},
+      </if>
+      <if test="borrowShareRate != null">
+        #{borrowShareRate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="accountId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.AgentAccountExample" resultType="java.lang.Long">
+    select count(*) from agent_account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update agent_account
+    <set>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=BIGINT},
+      </if>
+      <if test="record.activateShareRate != null">
+        activate_share_rate = #{record.activateShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cashIncome != null">
+        cash_income = #{record.cashIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cashTotal != null">
+        cash_total = #{record.cashTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lockBalance != null">
+        lock_balance = #{record.lockBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="record.repayIncome != null">
+        repay_income = #{record.repayIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="record.repayTotal != null">
+        repay_total = #{record.repayTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.settleCircle != null">
+        settle_circle = #{record.settleCircle,jdbcType=INTEGER},
+      </if>
+      <if test="record.settleRate != null">
+        settle_rate = #{record.settleRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.repayShareRate != null">
+        repay_share_rate = #{record.repayShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.usableBalance != null">
+        usable_balance = #{record.usableBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="record.userRate != null">
+        user_rate = #{record.userRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.borrowShareRate != null">
+        borrow_share_rate = #{record.borrowShareRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update agent_account
+    set account_id = #{record.accountId,jdbcType=BIGINT},
+      activate_share_rate = #{record.activateShareRate,jdbcType=DOUBLE},
+      agent_id = #{record.agentId,jdbcType=BIGINT},
+      cash_income = #{record.cashIncome,jdbcType=DOUBLE},
+      cash_total = #{record.cashTotal,jdbcType=DOUBLE},
+      lock_balance = #{record.lockBalance,jdbcType=DOUBLE},
+      repay_income = #{record.repayIncome,jdbcType=DOUBLE},
+      repay_total = #{record.repayTotal,jdbcType=DOUBLE},
+      settle_circle = #{record.settleCircle,jdbcType=INTEGER},
+      settle_rate = #{record.settleRate,jdbcType=DOUBLE},
+      repay_share_rate = #{record.repayShareRate,jdbcType=DOUBLE},
+      usable_balance = #{record.usableBalance,jdbcType=DOUBLE},
+      user_rate = #{record.userRate,jdbcType=DOUBLE},
+      borrow_share_rate = #{record.borrowShareRate,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.AgentAccount">
+    update agent_account
+    <set>
+      <if test="activateShareRate != null">
+        activate_share_rate = #{activateShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="cashIncome != null">
+        cash_income = #{cashIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="cashTotal != null">
+        cash_total = #{cashTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="lockBalance != null">
+        lock_balance = #{lockBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="repayIncome != null">
+        repay_income = #{repayIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="repayTotal != null">
+        repay_total = #{repayTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="settleCircle != null">
+        settle_circle = #{settleCircle,jdbcType=INTEGER},
+      </if>
+      <if test="settleRate != null">
+        settle_rate = #{settleRate,jdbcType=DOUBLE},
+      </if>
+      <if test="repayShareRate != null">
+        repay_share_rate = #{repayShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="usableBalance != null">
+        usable_balance = #{usableBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userRate != null">
+        user_rate = #{userRate,jdbcType=DOUBLE},
+      </if>
+      <if test="borrowShareRate != null">
+        borrow_share_rate = #{borrowShareRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.AgentAccount">
+    update agent_account
+    set activate_share_rate = #{activateShareRate,jdbcType=DOUBLE},
+      agent_id = #{agentId,jdbcType=BIGINT},
+      cash_income = #{cashIncome,jdbcType=DOUBLE},
+      cash_total = #{cashTotal,jdbcType=DOUBLE},
+      lock_balance = #{lockBalance,jdbcType=DOUBLE},
+      repay_income = #{repayIncome,jdbcType=DOUBLE},
+      repay_total = #{repayTotal,jdbcType=DOUBLE},
+      settle_circle = #{settleCircle,jdbcType=INTEGER},
+      settle_rate = #{settleRate,jdbcType=DOUBLE},
+      repay_share_rate = #{repayShareRate,jdbcType=DOUBLE},
+      usable_balance = #{usableBalance,jdbcType=DOUBLE},
+      user_rate = #{userRate,jdbcType=DOUBLE},
+      borrow_share_rate = #{borrowShareRate,jdbcType=DOUBLE}
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.MemberAccountMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.MemberAccount">
+    <id column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="cash_total" jdbcType="DOUBLE" property="cashTotal" />
+    <result column="lock_balance" jdbcType="DOUBLE" property="lockBalance" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="repay_rate" jdbcType="DOUBLE" property="repayRate" />
+    <result column="repay_total" jdbcType="DOUBLE" property="repayTotal" />
+    <result column="usable_balance" jdbcType="DOUBLE" property="usableBalance" />
+    <result column="borrow_total" jdbcType="DOUBLE" property="borrowTotal" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    account_id, cash_total, lock_balance, member_id, repay_rate, repay_total, usable_balance, 
+    borrow_total
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.MemberAccountExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member_account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member_account
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from member_account
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.MemberAccountExample">
+    delete from member_account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rw.finance.common.entity.MemberAccount">
+    insert into member_account (account_id, cash_total, lock_balance, 
+      member_id, repay_rate, repay_total, 
+      usable_balance, borrow_total)
+    values (#{accountId,jdbcType=BIGINT}, #{cashTotal,jdbcType=DOUBLE}, #{lockBalance,jdbcType=DOUBLE}, 
+      #{memberId,jdbcType=BIGINT}, #{repayRate,jdbcType=DOUBLE}, #{repayTotal,jdbcType=DOUBLE}, 
+      #{usableBalance,jdbcType=DOUBLE}, #{borrowTotal,jdbcType=DOUBLE})
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="accountId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.MemberAccount">
+    insert into member_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="cashTotal != null">
+        cash_total,
+      </if>
+      <if test="lockBalance != null">
+        lock_balance,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="repayRate != null">
+        repay_rate,
+      </if>
+      <if test="repayTotal != null">
+        repay_total,
+      </if>
+      <if test="usableBalance != null">
+        usable_balance,
+      </if>
+      <if test="borrowTotal != null">
+        borrow_total,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="cashTotal != null">
+        #{cashTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="lockBalance != null">
+        #{lockBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="repayRate != null">
+        #{repayRate,jdbcType=DOUBLE},
+      </if>
+      <if test="repayTotal != null">
+        #{repayTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="usableBalance != null">
+        #{usableBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="borrowTotal != null">
+        #{borrowTotal,jdbcType=DOUBLE},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="accountId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.MemberAccountExample" resultType="java.lang.Long">
+    select count(*) from member_account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member_account
+    <set>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cashTotal != null">
+        cash_total = #{record.cashTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lockBalance != null">
+        lock_balance = #{record.lockBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.repayRate != null">
+        repay_rate = #{record.repayRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.repayTotal != null">
+        repay_total = #{record.repayTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.usableBalance != null">
+        usable_balance = #{record.usableBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="record.borrowTotal != null">
+        borrow_total = #{record.borrowTotal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member_account
+    set account_id = #{record.accountId,jdbcType=BIGINT},
+      cash_total = #{record.cashTotal,jdbcType=DOUBLE},
+      lock_balance = #{record.lockBalance,jdbcType=DOUBLE},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      repay_rate = #{record.repayRate,jdbcType=DOUBLE},
+      repay_total = #{record.repayTotal,jdbcType=DOUBLE},
+      usable_balance = #{record.usableBalance,jdbcType=DOUBLE},
+      borrow_total = #{record.borrowTotal,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.MemberAccount">
+    update member_account
+    <set>
+      <if test="cashTotal != null">
+        cash_total = #{cashTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="lockBalance != null">
+        lock_balance = #{lockBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="repayRate != null">
+        repay_rate = #{repayRate,jdbcType=DOUBLE},
+      </if>
+      <if test="repayTotal != null">
+        repay_total = #{repayTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="usableBalance != null">
+        usable_balance = #{usableBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="borrowTotal != null">
+        borrow_total = #{borrowTotal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.MemberAccount">
+    update member_account
+    set cash_total = #{cashTotal,jdbcType=DOUBLE},
+      lock_balance = #{lockBalance,jdbcType=DOUBLE},
+      member_id = #{memberId,jdbcType=BIGINT},
+      repay_rate = #{repayRate,jdbcType=DOUBLE},
+      repay_total = #{repayTotal,jdbcType=DOUBLE},
+      usable_balance = #{usableBalance,jdbcType=DOUBLE},
+      borrow_total = #{borrowTotal,jdbcType=DOUBLE}
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+</mapper>

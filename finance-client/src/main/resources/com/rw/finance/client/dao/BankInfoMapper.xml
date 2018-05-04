@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.BankInfoMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.BankInfo">
+    <id column="bank_id" jdbcType="BIGINT" property="bankId" />
+    <result column="abbreviation" jdbcType="VARCHAR" property="abbreviation" />
+    <result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
+    <result column="bank_logo" jdbcType="VARCHAR" property="bankLogo" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="card_bins" jdbcType="VARCHAR" property="cardBins" />
+    <result column="card_color" jdbcType="VARCHAR" property="cardColor" />
+    <result column="bank_extra" jdbcType="VARCHAR" property="bankExtra" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    bank_id, abbreviation, bank_code, bank_logo, bank_name, card_bins, card_color, bank_extra
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.BankInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bank_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bank_info
+    where bank_id = #{bankId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bank_info
+    where bank_id = #{bankId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.BankInfoExample">
+    delete from bank_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rw.finance.common.entity.BankInfo">
+    insert into bank_info (bank_id, abbreviation, bank_code, 
+      bank_logo, bank_name, card_bins, 
+      card_color, bank_extra)
+    values (#{bankId,jdbcType=BIGINT}, #{abbreviation,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, 
+      #{bankLogo,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{cardBins,jdbcType=VARCHAR}, 
+      #{cardColor,jdbcType=VARCHAR}, #{bankExtra,jdbcType=VARCHAR})
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="bankId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.BankInfo">
+    insert into bank_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bankId != null">
+        bank_id,
+      </if>
+      <if test="abbreviation != null">
+        abbreviation,
+      </if>
+      <if test="bankCode != null">
+        bank_code,
+      </if>
+      <if test="bankLogo != null">
+        bank_logo,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="cardBins != null">
+        card_bins,
+      </if>
+      <if test="cardColor != null">
+        card_color,
+      </if>
+      <if test="bankExtra != null">
+        bank_extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bankId != null">
+        #{bankId,jdbcType=BIGINT},
+      </if>
+      <if test="abbreviation != null">
+        #{abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null">
+        #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankLogo != null">
+        #{bankLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBins != null">
+        #{cardBins,jdbcType=VARCHAR},
+      </if>
+      <if test="cardColor != null">
+        #{cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="bankExtra != null">
+        #{bankExtra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="bankId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.BankInfoExample" resultType="java.lang.Long">
+    select count(*) from bank_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bank_info
+    <set>
+      <if test="record.bankId != null">
+        bank_id = #{record.bankId,jdbcType=BIGINT},
+      </if>
+      <if test="record.abbreviation != null">
+        abbreviation = #{record.abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankCode != null">
+        bank_code = #{record.bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankLogo != null">
+        bank_logo = #{record.bankLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null">
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardBins != null">
+        card_bins = #{record.cardBins,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardColor != null">
+        card_color = #{record.cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankExtra != null">
+        bank_extra = #{record.bankExtra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bank_info
+    set bank_id = #{record.bankId,jdbcType=BIGINT},
+      abbreviation = #{record.abbreviation,jdbcType=VARCHAR},
+      bank_code = #{record.bankCode,jdbcType=VARCHAR},
+      bank_logo = #{record.bankLogo,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      card_bins = #{record.cardBins,jdbcType=VARCHAR},
+      card_color = #{record.cardColor,jdbcType=VARCHAR},
+      bank_extra = #{record.bankExtra,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.BankInfo">
+    update bank_info
+    <set>
+      <if test="abbreviation != null">
+        abbreviation = #{abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null">
+        bank_code = #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankLogo != null">
+        bank_logo = #{bankLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBins != null">
+        card_bins = #{cardBins,jdbcType=VARCHAR},
+      </if>
+      <if test="cardColor != null">
+        card_color = #{cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="bankExtra != null">
+        bank_extra = #{bankExtra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bank_id = #{bankId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.BankInfo">
+    update bank_info
+    set abbreviation = #{abbreviation,jdbcType=VARCHAR},
+      bank_code = #{bankCode,jdbcType=VARCHAR},
+      bank_logo = #{bankLogo,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      card_bins = #{cardBins,jdbcType=VARCHAR},
+      card_color = #{cardColor,jdbcType=VARCHAR},
+      bank_extra = #{bankExtra,jdbcType=VARCHAR}
+    where bank_id = #{bankId,jdbcType=BIGINT}
+  </update>
+</mapper>

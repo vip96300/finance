@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="finance-client" />
+        <module name="finance-common" />
+        <module name="finance-plugin" />
+        <module name="finance.plugin" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="finance" target="1.5" />
+      <module name="finance-admin" target="1.8" />
+      <module name="finance-client" target="1.8" />
+      <module name="finance-common" target="1.8" />
+      <module name="finance-plugin" target="1.8" />
+      <module name="finance-server" target="1.8" />
+      <module name="finance-task" target="1.5" />
+      <module name="finance.plugin" target="1.5" />
+      <module name="financeplugin" target="1.5" />
+      <module name="mybatis.plugin" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

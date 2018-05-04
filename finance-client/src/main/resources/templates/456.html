@@ -1,0 +1,95 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>短信校验码</title>
+    <style>            * {
+        padding: 0;
+        margin: 0;
+        font-size: 0.24rem;
+        color: #000000;
+    }
+
+    html {
+        background-color: #F6F6F8;
+    }        </style>
+    <link rel="stylesheet" href="/unspay-creditCardRepayment-business/h5/pay/css/index.css"/>
+    <script src="/unspay-creditCardRepayment-business/static/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">            // 响应式布局			document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';			window.addEventListener('resize', function() {				document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';			});		</script>
+</head>
+<body>
+<div class="unspay bindcard clearfix">
+    <div class="qrbody teltop"><p>请输入手机18996121709收到的短信验证码</p></div>
+    <form action="" id="messageForm" method="post"><input type="hidden" value="6225882304840173/" id="cardNo"
+                                                          name="cardNo"> <input type="hidden" value="18996121709"
+                                                                                id="phoneNo" name="phoneNo"> <input
+            type="hidden" value="0925" id="orderId" name="orderId"> <input type="hidden" value="D" id="cardType"
+                                                                           name="cardType"> <input type="hidden"
+                                                                                                   value="D"
+                                                                                                   id="delegatePayResponseUrl"
+                                                                                                   name="delegatePayResponseUrl">
+        <p class="name" style="border-top:1px solid #E0E1E5;"><input type="text" placeholder="请填写验证码" class="one"
+                                                                     id="verifyCode" name="verifyCode"/> <input
+                type="button" id="btn" value="免费获取" class="two"/></p>
+        <div class="btn" style="width:92%;margin:0.8rem auto 0.8rem auto;">
+            <button id="btnSubmit" type="button">确认</button>
+        </div>
+    </form>
+</div>
+<footer class="logo1 clearfix" style="text-align: center;margin-top: 0.3rem;"><img
+        src="/unspay-creditCardRepayment-business/h5/pay/img/logo.png" alt=""/></footer>        <!--提示弹框-->
+<div class="mask"></div>
+<div class="alert"><h1>温馨提示</h1>
+    <p>不正确</p>            <span class="iknow">知道了</span></div>
+<script>            var scrollHeight = $(document.body).height();
+var clientHeight = $(window).height();
+if (scrollHeight < clientHeight) {
+    $(".logo1").css({'width': '100%', 'position': 'absolute', 'textAlign': 'center', 'bottom': '0',});
+} else {
+    $(".logo1").css({'height': 'scrollHeight', 'textAlign': 'center'});
+}        </script>
+<script type="text/javascript">            var verifyCode = $("#verifyCode"), input = $("form").find("input");
+var a = true;
+var btnSubmit = document.getElementById("btnSubmit");
+var reg4 = /^\d{6}$/;
+
+function check() {
+    if (!reg4.test(verifyCode.val())) {
+        shown("校验码错误，请检查您收到的<br>验证码后重新输入");
+        a = false;
+        return;
+    } else {
+        a = true;
+    }
+    return true;
+};verifyCode.on("input", function () {
+    if ($(this).val() == "") {
+        a = false;
+    } else {
+        a = true;
+    }
+    ss();
+});		    //确认验证码		    $("#btnSubmit").click(function(){				if(check()){					var btnSub = document.getElementById("btnSubmit");					btnSub.setAttribute("disabled", true);		            // 支付		        	$.ajax({			            type: "POST",			            url:"http://180.166.114.151:28084/unspay-creditCardRepayment-business/quickPayWap/confirmVerifyCode",			            data:$("#messageForm").serialize(),			            dataType: 'json',			            error: function(request) {			            	$("#btnSubmit").removeAttr("disabled");			                shown("Connection error");			            },			            success: function(data) {			            	if("0000"==data.result_code){			            		//支付			            		pay();			            	}else{			            		$("#btnSubmit").removeAttr("disabled");			            		shown("验证失败,请确认短信验证码");			            	}			            }			        });		        }		    });		    		    //支付		    function pay(){           		   document.getElementById('messageForm').action = "http://180.166.114.151:28084/unspay-creditCardRepayment-business/quickPayWap/pay";                   document.getElementById('messageForm').submit();		    };			function ss() {				if(a) {					btnSubmit.style.backgroundColor = "#0068B7";					btnSubmit.style.pointerEvents = "auto";				} else {					btnSubmit.style.backgroundColor = "#DFE1E5";					btnSubmit.style.pointerEvents = "none";					btnSubmit.type = "button";				}			};			function closed(target) {				$(".mask").hide();				$(".alert").hide();			};			function shown(mes) {				var ele = document.documentElement || document.dody;				var x = (ele.clientWidth - $(".alert").width()) / 2;				var y = (ele.clientHeight - $(".alert").height()) / 2;				$(".alert").css({					left: x,					top: y				});				$(".mask").show();				$(".alert").show();				$(".alert").find("p").html(mes);			};			$(".iknow").on("click", function() {				closed();			});		</script>
+<!--倒计时-->
+<script type="text/javascript">            var wait = 60;
+var two = $(".two");
+time(document.getElementById("btn"));
+
+function time(o) {
+    if (wait == 0) {
+        o.removeAttribute("disabled");
+        o.value = "重新获取";
+        wait = 60;
+        two.css({"backgroundColor": "#007AFF",});
+    } else {
+        o.setAttribute("disabled", true);
+        o.value = "" + wait + " S";
+        wait--;
+        setTimeout(function () {
+            time(o);
+        }, 1000);
+        two.css({"backgroundColor": "#999999",});
+    }
+}		    		  	//重新获取短信		    document.getElementById("btn").onclick = function() {		   		time(this);		    	$.ajax({		            type: "POST",		            dataType: 'json',		            url:"http://180.166.114.151:28084/unspay-creditCardRepayment-business/quickPayWap/reSendVerifyCode",		            data: $("#messageForm").serialize(),		            error: function(request) {		                shown("Connection error");		            },		            success: function(data) {		            	if("0000"==data.result_code){		            	}else{		            		shown("发送失败");		            	}		            }		    	});		     };		</script>
+</body>
+</html>

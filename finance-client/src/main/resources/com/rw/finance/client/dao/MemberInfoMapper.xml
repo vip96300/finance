@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.MemberInfoMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.MemberInfo">
+    <id column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="active_time" jdbcType="VARCHAR" property="activeTime" />
+    <result column="agent_id" jdbcType="BIGINT" property="agentId" />
+    <result column="head_path" jdbcType="VARCHAR" property="headPath" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="id_obverse" jdbcType="VARCHAR" property="idObverse" />
+    <result column="id_path" jdbcType="VARCHAR" property="idPath" />
+    <result column="id_reverse" jdbcType="VARCHAR" property="idReverse" />
+    <result column="id_type" jdbcType="INTEGER" property="idType" />
+    <result column="is_real" jdbcType="INTEGER" property="isReal" />
+    <result column="is_real_time" jdbcType="VARCHAR" property="isRealTime" />
+    <result column="last_login_time" jdbcType="VARCHAR" property="lastLoginTime" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="pay_pwd" jdbcType="VARCHAR" property="payPwd" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="register_ip" jdbcType="VARCHAR" property="registerIp" />
+    <result column="register_time" jdbcType="VARCHAR" property="registerTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="real_card_path" jdbcType="VARCHAR" property="realCardPath" />
+    <result column="level_time" jdbcType="VARCHAR" property="levelTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    member_id, active_time, agent_id, head_path, id_number, id_obverse, id_path, id_reverse, 
+    id_type, is_real, is_real_time, last_login_time, level, nick_name, parent_id, password, 
+    pay_pwd, real_name, register_ip, register_time, status, telephone, real_card_path, 
+    level_time
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.MemberInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member_info
+    where member_id = #{memberId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from member_info
+    where member_id = #{memberId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.MemberInfoExample">
+    delete from member_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rw.finance.common.entity.MemberInfo">
+    insert into member_info (member_id, active_time, agent_id, 
+      head_path, id_number, id_obverse, 
+      id_path, id_reverse, id_type, 
+      is_real, is_real_time, last_login_time, 
+      level, nick_name, parent_id, 
+      password, pay_pwd, real_name, 
+      register_ip, register_time, status, 
+      telephone, real_card_path, level_time
+      )
+    values (#{memberId,jdbcType=BIGINT}, #{activeTime,jdbcType=VARCHAR}, #{agentId,jdbcType=BIGINT}, 
+      #{headPath,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{idObverse,jdbcType=VARCHAR}, 
+      #{idPath,jdbcType=VARCHAR}, #{idReverse,jdbcType=VARCHAR}, #{idType,jdbcType=INTEGER}, 
+      #{isReal,jdbcType=INTEGER}, #{isRealTime,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{password,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{registerIp,jdbcType=VARCHAR}, #{registerTime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{telephone,jdbcType=VARCHAR}, #{realCardPath,jdbcType=VARCHAR}, #{levelTime,jdbcType=VARCHAR}
+      )
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="memberId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.MemberInfo">
+    insert into member_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="activeTime != null">
+        active_time,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="headPath != null">
+        head_path,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="idObverse != null">
+        id_obverse,
+      </if>
+      <if test="idPath != null">
+        id_path,
+      </if>
+      <if test="idReverse != null">
+        id_reverse,
+      </if>
+      <if test="idType != null">
+        id_type,
+      </if>
+      <if test="isReal != null">
+        is_real,
+      </if>
+      <if test="isRealTime != null">
+        is_real_time,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="payPwd != null">
+        pay_pwd,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="registerIp != null">
+        register_ip,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="realCardPath != null">
+        real_card_path,
+      </if>
+      <if test="levelTime != null">
+        level_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="headPath != null">
+        #{headPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idObverse != null">
+        #{idObverse,jdbcType=VARCHAR},
+      </if>
+      <if test="idPath != null">
+        #{idPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idReverse != null">
+        #{idReverse,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="isReal != null">
+        #{isReal,jdbcType=INTEGER},
+      </if>
+      <if test="isRealTime != null">
+        #{isRealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="payPwd != null">
+        #{payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerIp != null">
+        #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="realCardPath != null">
+        #{realCardPath,jdbcType=VARCHAR},
+      </if>
+      <if test="levelTime != null">
+        #{levelTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="memberId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.MemberInfoExample" resultType="java.lang.Long">
+    select count(*) from member_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member_info
+    <set>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.activeTime != null">
+        active_time = #{record.activeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.headPath != null">
+        head_path = #{record.headPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idNumber != null">
+        id_number = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idObverse != null">
+        id_obverse = #{record.idObverse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idPath != null">
+        id_path = #{record.idPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idReverse != null">
+        id_reverse = #{record.idReverse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idType != null">
+        id_type = #{record.idType,jdbcType=INTEGER},
+      </if>
+      <if test="record.isReal != null">
+        is_real = #{record.isReal,jdbcType=INTEGER},
+      </if>
+      <if test="record.isRealTime != null">
+        is_real_time = #{record.isRealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null">
+        last_login_time = #{record.lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickName != null">
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payPwd != null">
+        pay_pwd = #{record.payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null">
+        real_name = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerIp != null">
+        register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerTime != null">
+        register_time = #{record.registerTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.telephone != null">
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realCardPath != null">
+        real_card_path = #{record.realCardPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.levelTime != null">
+        level_time = #{record.levelTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member_info
+    set member_id = #{record.memberId,jdbcType=BIGINT},
+      active_time = #{record.activeTime,jdbcType=VARCHAR},
+      agent_id = #{record.agentId,jdbcType=BIGINT},
+      head_path = #{record.headPath,jdbcType=VARCHAR},
+      id_number = #{record.idNumber,jdbcType=VARCHAR},
+      id_obverse = #{record.idObverse,jdbcType=VARCHAR},
+      id_path = #{record.idPath,jdbcType=VARCHAR},
+      id_reverse = #{record.idReverse,jdbcType=VARCHAR},
+      id_type = #{record.idType,jdbcType=INTEGER},
+      is_real = #{record.isReal,jdbcType=INTEGER},
+      is_real_time = #{record.isRealTime,jdbcType=VARCHAR},
+      last_login_time = #{record.lastLoginTime,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      password = #{record.password,jdbcType=VARCHAR},
+      pay_pwd = #{record.payPwd,jdbcType=VARCHAR},
+      real_name = #{record.realName,jdbcType=VARCHAR},
+      register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      register_time = #{record.registerTime,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      real_card_path = #{record.realCardPath,jdbcType=VARCHAR},
+      level_time = #{record.levelTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.MemberInfo">
+    update member_info
+    <set>
+      <if test="activeTime != null">
+        active_time = #{activeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="headPath != null">
+        head_path = #{headPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idObverse != null">
+        id_obverse = #{idObverse,jdbcType=VARCHAR},
+      </if>
+      <if test="idPath != null">
+        id_path = #{idPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idReverse != null">
+        id_reverse = #{idReverse,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        id_type = #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="isReal != null">
+        is_real = #{isReal,jdbcType=INTEGER},
+      </if>
+      <if test="isRealTime != null">
+        is_real_time = #{isRealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="payPwd != null">
+        pay_pwd = #{payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerIp != null">
+        register_ip = #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="realCardPath != null">
+        real_card_path = #{realCardPath,jdbcType=VARCHAR},
+      </if>
+      <if test="levelTime != null">
+        level_time = #{levelTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where member_id = #{memberId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.MemberInfo">
+    update member_info
+    set active_time = #{activeTime,jdbcType=VARCHAR},
+      agent_id = #{agentId,jdbcType=BIGINT},
+      head_path = #{headPath,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      id_obverse = #{idObverse,jdbcType=VARCHAR},
+      id_path = #{idPath,jdbcType=VARCHAR},
+      id_reverse = #{idReverse,jdbcType=VARCHAR},
+      id_type = #{idType,jdbcType=INTEGER},
+      is_real = #{isReal,jdbcType=INTEGER},
+      is_real_time = #{isRealTime,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      password = #{password,jdbcType=VARCHAR},
+      pay_pwd = #{payPwd,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      register_ip = #{registerIp,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      real_card_path = #{realCardPath,jdbcType=VARCHAR},
+      level_time = #{levelTime,jdbcType=VARCHAR}
+    where member_id = #{memberId,jdbcType=BIGINT}
+  </update>
+</mapper>

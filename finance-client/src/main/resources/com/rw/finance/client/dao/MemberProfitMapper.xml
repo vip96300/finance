@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.MemberProfitMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.MemberProfit">
+    <id column="pofit_id" jdbcType="BIGINT" property="pofitId" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="biz_amount" jdbcType="DOUBLE" property="bizAmount" />
+    <result column="biz_type" jdbcType="INTEGER" property="bizType" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="pro_member_id" jdbcType="BIGINT" property="proMemberId" />
+    <result column="pro_telephone" jdbcType="VARCHAR" property="proTelephone" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pofit_id, amount, biz_amount, biz_type, create_time, level, member_id, pro_member_id, 
+    pro_telephone, trade_no
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.MemberProfitExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member_profit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member_profit
+    where pofit_id = #{pofitId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from member_profit
+    where pofit_id = #{pofitId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.MemberProfitExample">
+    delete from member_profit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rw.finance.common.entity.MemberProfit">
+    insert into member_profit (pofit_id, amount, biz_amount, 
+      biz_type, create_time, level, 
+      member_id, pro_member_id, pro_telephone, 
+      trade_no)
+    values (#{pofitId,jdbcType=BIGINT}, #{amount,jdbcType=DOUBLE}, #{bizAmount,jdbcType=DOUBLE}, 
+      #{bizType,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{memberId,jdbcType=BIGINT}, #{proMemberId,jdbcType=BIGINT}, #{proTelephone,jdbcType=VARCHAR}, 
+      #{tradeNo,jdbcType=VARCHAR})
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="profitId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.MemberProfit">
+    insert into member_profit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pofitId != null">
+        pofit_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="bizAmount != null">
+        biz_amount,
+      </if>
+      <if test="bizType != null">
+        biz_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="proMemberId != null">
+        pro_member_id,
+      </if>
+      <if test="proTelephone != null">
+        pro_telephone,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pofitId != null">
+        #{pofitId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="bizAmount != null">
+        #{bizAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="bizType != null">
+        #{bizType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="proMemberId != null">
+        #{proMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="proTelephone != null">
+        #{proTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="profitId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.MemberProfitExample" resultType="java.lang.Long">
+    select count(*) from member_profit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member_profit
+    <set>
+      <if test="record.pofitId != null">
+        pofit_id = #{record.pofitId,jdbcType=BIGINT},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bizAmount != null">
+        biz_amount = #{record.bizAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bizType != null">
+        biz_type = #{record.bizType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.proMemberId != null">
+        pro_member_id = #{record.proMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.proTelephone != null">
+        pro_telephone = #{record.proTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeNo != null">
+        trade_no = #{record.tradeNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member_profit
+    set pofit_id = #{record.pofitId,jdbcType=BIGINT},
+      amount = #{record.amount,jdbcType=DOUBLE},
+      biz_amount = #{record.bizAmount,jdbcType=DOUBLE},
+      biz_type = #{record.bizType,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      pro_member_id = #{record.proMemberId,jdbcType=BIGINT},
+      pro_telephone = #{record.proTelephone,jdbcType=VARCHAR},
+      trade_no = #{record.tradeNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.MemberProfit">
+    update member_profit
+    <set>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="bizAmount != null">
+        biz_amount = #{bizAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="bizType != null">
+        biz_type = #{bizType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="proMemberId != null">
+        pro_member_id = #{proMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="proTelephone != null">
+        pro_telephone = #{proTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pofit_id = #{pofitId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.MemberProfit">
+    update member_profit
+    set amount = #{amount,jdbcType=DOUBLE},
+      biz_amount = #{bizAmount,jdbcType=DOUBLE},
+      biz_type = #{bizType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      member_id = #{memberId,jdbcType=BIGINT},
+      pro_member_id = #{proMemberId,jdbcType=BIGINT},
+      pro_telephone = #{proTelephone,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR}
+    where pofit_id = #{pofitId,jdbcType=BIGINT}
+  </update>
+</mapper>

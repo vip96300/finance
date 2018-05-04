@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- 驱动包 -->
+    <classPathEntry location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar" />
+
+    <context id="MysqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为`  -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <property name="useActualColumnNames" value="false" />
+
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+        <!-- 为生成的Java模型类添加序列化接口，并生成serialVersionUID字段 -->
+        <plugin type="com.rw.finance.plugin.SerializablePlugin">
+            <property name="suppressJavaInterface" value="false"/>
+        </plugin>
+
+        <!-- 生成一个新的selectByExample方法，这个方法可以接收offset和limit参数，主要用来实现分页 -->
+        <plugin type="com.rw.finance.plugin.PaginationPlugin"/>
+
+        <!-- Java模型生成equals和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+        <!-- 生成的代码去掉注释 -->
+        <commentGenerator type="com.rw.finance.plugin.CommentGenerator">
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://rm-wz90410c1rsx205s2bo.mysql.rds.aliyuncs.com:3306/finance-dev" userId="root" password="s9s4ohDZdkQv5Pex"/>
+
+        <!-- model生成 -->
+        <javaModelGenerator targetPackage="com.rw.finance.common.entity" targetProject="../finance-common/src/main/java"/>
+
+        <!-- MapperXML生成 -->
+        <sqlMapGenerator targetPackage="com.rw.finance.client.dao" targetProject="../finance-client/src/main/resources"/>
+
+        <!-- Mapper接口生成 -->
+        <!--<javaClientGenerator targetPackage="com.rw.finance.admin.dao" targetProject="../finance-client/src/main/java" type="XMLMAPPER"/>-->
+
+        <!-- 需要映射的表，重新生成后需要在Insert标签内加入 -->
+        <!-- <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="模型主键字段名">
+            SELECT  LAST_INSERT_ID()
+        </selectKey> -->
+        <!--<table tableName="actvcode_info" domainObjectName="ActvcodeInfo"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="agent_account" domainObjectName="AgentAccount"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="agent_card" domainObjectName="AgentCard"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="agent_info" domainObjectName="AgentInfo"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="agent_profit" domainObjectName="AgentProfit"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="agent_type" domainObjectName="AgentType"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="bank_info" domainObjectName="BankInfo"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="log_info" domainObjectName="LogInfo"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="login_info" domainObjectName="LoginInfo"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="member_account" domainObjectName="MemberAccount"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="member_card" domainObjectName="MemberCard"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="member_info" domainObjectName="MemberInfo"><property name="useActualColumnNames" value="false" /></table>-->
+        <table tableName="member_level" domainObjectName="MemberLevel"><property name="useActualColumnNames" value="false" /></table>
+        <!--<table tableName="member_profit" domainObjectName="MemberProfit"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="order_count" domainObjectName="OrderCount"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="order_info" domainObjectName="OrderInfo"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="pay_channel" domainObjectName="PayChannel"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="power_level" domainObjectName="PowerLevel"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="power_resource" domainObjectName="PowerResource"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="power_resource_level" domainObjectName="PowerResourceLevel"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="qrcode_regist" domainObjectName="QrCodeRegist"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="repay_plan" domainObjectName="RepayPlan"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="repay_task" domainObjectName="RepayTask"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="system_setting" domainObjectName="SystemSetting"><property name="useActualColumnNames" value="false" /></table>-->
+    </context>
+</generatorConfiguration>

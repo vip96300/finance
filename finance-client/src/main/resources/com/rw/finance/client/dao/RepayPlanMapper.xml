@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.RepayPlanMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.RepayPlan">
+    <id column="plan_id" jdbcType="BIGINT" property="planId" />
+    <result column="beg_date" jdbcType="VARCHAR" property="begDate" />
+    <result column="card_id" jdbcType="BIGINT" property="cardId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="end_date" jdbcType="VARCHAR" property="endDate" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="plan_type" jdbcType="INTEGER" property="planType" />
+    <result column="poundage" jdbcType="DOUBLE" property="poundage" />
+    <result column="stage_count" jdbcType="INTEGER" property="stageCount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    plan_id, beg_date, card_id, create_time, end_date, member_id, money, plan_type, poundage, 
+    stage_count, status, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.RepayPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from repay_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from repay_plan
+    where plan_id = #{planId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from repay_plan
+    where plan_id = #{planId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.RepayPlanExample">
+    delete from repay_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert"  parameterType="com.rw.finance.common.entity.RepayPlan">
+    insert into repay_plan (plan_id, beg_date, card_id, 
+      create_time, end_date, member_id, 
+      money, plan_type, poundage, 
+      stage_count, status, update_time
+      )
+    values (#{planId,jdbcType=BIGINT}, #{begDate,jdbcType=VARCHAR}, #{cardId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, 
+      #{money,jdbcType=DOUBLE}, #{planType,jdbcType=INTEGER}, #{poundage,jdbcType=DOUBLE}, 
+      #{stageCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{updateTime,jdbcType=VARCHAR}
+      )
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="planId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.RepayPlan">
+    insert into repay_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="planId != null">
+        plan_id,
+      </if>
+      <if test="begDate != null">
+        beg_date,
+      </if>
+      <if test="cardId != null">
+        card_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="planType != null">
+        plan_type,
+      </if>
+      <if test="poundage != null">
+        poundage,
+      </if>
+      <if test="stageCount != null">
+        stage_count,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="planId != null">
+        #{planId,jdbcType=BIGINT},
+      </if>
+      <if test="begDate != null">
+        #{begDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        #{cardId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="planType != null">
+        #{planType,jdbcType=INTEGER},
+      </if>
+      <if test="poundage != null">
+        #{poundage,jdbcType=DOUBLE},
+      </if>
+      <if test="stageCount != null">
+        #{stageCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="planId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.RepayPlanExample" resultType="java.lang.Long">
+    select count(*) from repay_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update repay_plan
+    <set>
+      <if test="record.planId != null">
+        plan_id = #{record.planId,jdbcType=BIGINT},
+      </if>
+      <if test="record.begDate != null">
+        beg_date = #{record.begDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardId != null">
+        card_id = #{record.cardId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.planType != null">
+        plan_type = #{record.planType,jdbcType=INTEGER},
+      </if>
+      <if test="record.poundage != null">
+        poundage = #{record.poundage,jdbcType=DOUBLE},
+      </if>
+      <if test="record.stageCount != null">
+        stage_count = #{record.stageCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update repay_plan
+    set plan_id = #{record.planId,jdbcType=BIGINT},
+      beg_date = #{record.begDate,jdbcType=VARCHAR},
+      card_id = #{record.cardId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      end_date = #{record.endDate,jdbcType=VARCHAR},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      money = #{record.money,jdbcType=DOUBLE},
+      plan_type = #{record.planType,jdbcType=INTEGER},
+      poundage = #{record.poundage,jdbcType=DOUBLE},
+      stage_count = #{record.stageCount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.RepayPlan">
+    update repay_plan
+    <set>
+      <if test="begDate != null">
+        beg_date = #{begDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        card_id = #{cardId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="planType != null">
+        plan_type = #{planType,jdbcType=INTEGER},
+      </if>
+      <if test="poundage != null">
+        poundage = #{poundage,jdbcType=DOUBLE},
+      </if>
+      <if test="stageCount != null">
+        stage_count = #{stageCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where plan_id = #{planId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.RepayPlan">
+    update repay_plan
+    set beg_date = #{begDate,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=BIGINT},
+      money = #{money,jdbcType=DOUBLE},
+      plan_type = #{planType,jdbcType=INTEGER},
+      poundage = #{poundage,jdbcType=DOUBLE},
+      stage_count = #{stageCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where plan_id = #{planId,jdbcType=BIGINT}
+  </update>
+</mapper>

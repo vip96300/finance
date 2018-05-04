@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rw.finance.client.dao.AgentTypeMapper">
+  <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.AgentType">
+    <id column="type_id" jdbcType="BIGINT" property="typeId" />
+    <result column="activate_share_rate" jdbcType="DOUBLE" property="activateShareRate" />
+    <result column="agent_level" jdbcType="INTEGER" property="agentLevel" />
+    <result column="borrow_share_rate" jdbcType="DOUBLE" property="borrowShareRate" />
+    <result column="join_cost" jdbcType="DOUBLE" property="joinCost" />
+    <result column="repay_share_rate" jdbcType="DOUBLE" property="repayShareRate" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    type_id, activate_share_rate, agent_level, borrow_share_rate, join_cost, repay_share_rate, 
+    type_name, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.rw.finance.common.entity.AgentTypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from agent_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from agent_type
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from agent_type
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rw.finance.common.entity.AgentTypeExample">
+    delete from agent_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rw.finance.common.entity.AgentType">
+    insert into agent_type (type_id, activate_share_rate, agent_level, 
+      borrow_share_rate, join_cost, repay_share_rate, 
+      type_name, update_time)
+    values (#{typeId,jdbcType=BIGINT}, #{activateShareRate,jdbcType=DOUBLE}, #{agentLevel,jdbcType=INTEGER}, 
+      #{borrowShareRate,jdbcType=DOUBLE}, #{joinCost,jdbcType=DOUBLE}, #{repayShareRate,jdbcType=DOUBLE}, 
+      #{typeName,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="typeId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rw.finance.common.entity.AgentType">
+    insert into agent_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="activateShareRate != null">
+        activate_share_rate,
+      </if>
+      <if test="agentLevel != null">
+        agent_level,
+      </if>
+      <if test="borrowShareRate != null">
+        borrow_share_rate,
+      </if>
+      <if test="joinCost != null">
+        join_cost,
+      </if>
+      <if test="repayShareRate != null">
+        repay_share_rate,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="activateShareRate != null">
+        #{activateShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="agentLevel != null">
+        #{agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="borrowShareRate != null">
+        #{borrowShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="joinCost != null">
+        #{joinCost,jdbcType=DOUBLE},
+      </if>
+      <if test="repayShareRate != null">
+        #{repayShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="typeId">
+      SELECT  LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+  <select id="countByExample" parameterType="com.rw.finance.common.entity.AgentTypeExample" resultType="java.lang.Long">
+    select count(*) from agent_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update agent_type
+    <set>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.activateShareRate != null">
+        activate_share_rate = #{record.activateShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.agentLevel != null">
+        agent_level = #{record.agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowShareRate != null">
+        borrow_share_rate = #{record.borrowShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.joinCost != null">
+        join_cost = #{record.joinCost,jdbcType=DOUBLE},
+      </if>
+      <if test="record.repayShareRate != null">
+        repay_share_rate = #{record.repayShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.typeName != null">
+        type_name = #{record.typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update agent_type
+    set type_id = #{record.typeId,jdbcType=BIGINT},
+      activate_share_rate = #{record.activateShareRate,jdbcType=DOUBLE},
+      agent_level = #{record.agentLevel,jdbcType=INTEGER},
+      borrow_share_rate = #{record.borrowShareRate,jdbcType=DOUBLE},
+      join_cost = #{record.joinCost,jdbcType=DOUBLE},
+      repay_share_rate = #{record.repayShareRate,jdbcType=DOUBLE},
+      type_name = #{record.typeName,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.AgentType">
+    update agent_type
+    <set>
+      <if test="activateShareRate != null">
+        activate_share_rate = #{activateShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="agentLevel != null">
+        agent_level = #{agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="borrowShareRate != null">
+        borrow_share_rate = #{borrowShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="joinCost != null">
+        join_cost = #{joinCost,jdbcType=DOUBLE},
+      </if>
+      <if test="repayShareRate != null">
+        repay_share_rate = #{repayShareRate,jdbcType=DOUBLE},
+      </if>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.AgentType">
+    update agent_type
+    set activate_share_rate = #{activateShareRate,jdbcType=DOUBLE},
+      agent_level = #{agentLevel,jdbcType=INTEGER},
+      borrow_share_rate = #{borrowShareRate,jdbcType=DOUBLE},
+      join_cost = #{joinCost,jdbcType=DOUBLE},
+      repay_share_rate = #{repayShareRate,jdbcType=DOUBLE},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+</mapper>
