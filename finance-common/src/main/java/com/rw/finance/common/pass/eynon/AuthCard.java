@@ -67,7 +67,7 @@ public class AuthCard extends EynonBase{
 		params.put("version",version);
 		params.put("out_trade_no",orderInfo.getTradeNo());
 		params.put("timestamp",String.valueOf(System.currentTimeMillis()));
-		params.put("name",userInfo.getPayerRealName());
+		params.put("name",userInfo.getPayerrealName());
 		params.put("id_type","01");
 		params.put("id_no",userInfo.getPayerIdNo());
 		params.put("card_type","01");
@@ -80,7 +80,7 @@ public class AuthCard extends EynonBase{
 					+"&version="+version
 					+"&out_trade_no="+orderInfo.getTradeNo()
 					+"&timestamp="+String.valueOf(System.currentTimeMillis())
-					+"&name="+userInfo.getPayerRealName()
+					+"&name="+userInfo.getPayerrealName()
 					+"&id_type=01"
 					+"&id_no="+userInfo.getPayerIdNo()
 					+"&card_type=01"

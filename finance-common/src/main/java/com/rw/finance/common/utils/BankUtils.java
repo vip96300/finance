@@ -197,7 +197,7 @@ public class BankUtils {
         URL url = null;
         HttpURLConnection httpURLConnection = null;
         String strUrl="https://v.apistore.cn/api/bank/v4";
-        String param="key="+apiKey+"&bankcard="+cardInfo.getBankcard()+"&RealName="+cardInfo.getRealName()+"&cardNo="+cardInfo.getCardNo()+"&Mobile="+cardInfo.getMobile()+"&cardtype=DC&information=";
+        String param="key="+apiKey+"&bankcard="+cardInfo.getBankcard()+"&realName="+cardInfo.getRealName()+"&cardNo="+cardInfo.getCardNo()+"&Mobile="+cardInfo.getMobile()+"&cardtype=DC&information=";
         try {
             url = new URL(strUrl);
             httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -234,7 +234,7 @@ public class BankUtils {
     }
     /*public static void main(String []orgs){
     	System.err.println(1);
-    	AuthResult result=BankUtils.auth(new BankUtils().new CardInfo("6226011026785669", "黄洪飞", "500221199210021718", "15023343740"));
+    	AuthResult result=BankUtils.auth(new BankUtils().new CardInfo("6212263100037369902", "陈浩", "500113198802046513", "18996121709"));
     	System.err.println(result);
     }*/
     /**
@@ -245,9 +245,9 @@ public class BankUtils {
      * @declaration
      */
     public class CardInfo{
-    	public CardInfo(String bankcard,String RealName,String cardNo,String mobile){
+    	public CardInfo(String bankcard,String realName,String cardNo,String mobile){
     		this.bankcard=bankcard;
-    		this.RealName=RealName;
+    		this.realName=realName;
     		this.cardNo=cardNo;
     		this.mobile=mobile;
     	}
@@ -258,7 +258,7 @@ public class BankUtils {
     	/**
     	 * 真实姓名
     	 */
-    	private String RealName;
+    	private String realName;
     	/**
     	 * 身份证号
     	 */
@@ -274,10 +274,10 @@ public class BankUtils {
 			this.bankcard = bankcard;
 		}
 		public String getRealName() {
-			return RealName;
+			return realName;
 		}
-		public void setRealName(String RealName) {
-			this.RealName = RealName;
+		public void setrealName(String realName) {
+			this.realName = realName;
 		}
 		public String getCardNo() {
 			return cardNo;
@@ -330,7 +330,7 @@ public class BankUtils {
 		}
 		public class Result{
 			private String bankcard;
-			private String RealName;
+			private String realName;
 			private String cardNo;
 			private String mobile;
 			public String getBankcard() {
@@ -340,10 +340,10 @@ public class BankUtils {
 				this.bankcard = bankcard;
 			}
 			public String getRealName() {
-				return RealName;
+				return realName;
 			}
-			public void setRealName(String RealName) {
-				this.RealName = RealName;
+			public void setrealName(String realName) {
+				this.realName = realName;
 			}
 			public String getCardNo() {
 				return cardNo;

@@ -39,7 +39,7 @@ public class GatewayPay {
     // 到账卡
     paramList.add(new BasicNameValuePair("payeeCard", cardInfo.getPayeeCardNo()));
     // 到账卡持有者姓名
-    paramList.add(new BasicNameValuePair("payeeName", userInfo.getPayeeRealName()));
+    paramList.add(new BasicNameValuePair("payeeName", userInfo.getPayeerealName()));
     // 金额
     paramList.add(new BasicNameValuePair("money",String.valueOf(orderInfo.getBizAmount())));
     // 固定费率，单位：元

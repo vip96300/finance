@@ -54,19 +54,19 @@ public class MemberAccountController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/outcash")
-	public Result<Object> outcash(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="amount"  )Double amount,
-			@RequestParam(value="cardid"  )long cardid,
-			@RequestParam(value="paypwd"  )String paypwd){
+	public Result<Object> outcash(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="amount")Double amount,
+			@RequestParam(value="cardid")long cardid,
+			@RequestParam(value="paypwd")String paypwd){
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
 		if(!memberInfo.getPayPwd().equals(paypwd)){
-			return new Result<Object>(500,"支付密码错误",null);
+			return new Result<>(500,"支付密码错误",null);
 		}
 		PayResult payResult=memberAccountService.outcash(memberid, amount,cardid);
 		if(!payResult.getSuccess()){
-			return new Result<Object>(505,payResult.getDetails(),null);
+			return new Result<>(505,payResult.getDetails(),null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	
 	/**
@@ -79,29 +79,29 @@ public class MemberAccountController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/borrowcash")
-	public Result<Object> borrowcash(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="amount"  )Double amount,
-			@RequestParam(value="fromcardid"  )long fromcardid,
-			@RequestParam(value="tocardid"  )long tocardid,
-			@RequestParam(value="paypwd"  )String paypwd,
-			@RequestParam(value="channelid"  )long channelid){
+	public Result<Object> borrowcash(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="amount")Double amount,
+			@RequestParam(value="fromcardid")long fromcardid,
+			@RequestParam(value="tocardid")long tocardid,
+			@RequestParam(value="paypwd")String paypwd,
+			@RequestParam(value="channelid")long channelid){
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
 		if(!memberInfo.getPayPwd().equals(paypwd)){
-			return new Result<Object>(500,"支付密码错误",null);
+			return new Result<>(500,"支付密码错误",null);
 		}
 		MemberCard fromCard=memberCardService.getByMemberidAndCardidAndType(memberid, fromcardid, MemberCardConstatns.Type.TYPE2.getType());
 		if(StringUtils.isEmpty(fromCard)){
-			return new Result<Object>(501,"信用卡不存在",null);
+			return new Result<>(501,"信用卡不存在",null);
 		}
 		if(fromCard.getStatus()!=MemberCardConstatns.Status.STATUS1.getStatus()){//未鉴权
-			return new Result<Object>(502,"信用卡无效",null);
+			return new Result<>(502,"信用卡无效",null);
 		}
 		MemberCard toCard=memberCardService.getByMemberidAndCardidAndType(memberid, tocardid, MemberCardConstatns.Type.TYPE1.getType());
 		if(StringUtils.isEmpty(toCard)){
-			return new Result<Object>(503,"储蓄卡不存在",null);
+			return new Result<>(503,"储蓄卡不存在",null);
 		}
 		PayResult payResult=memberAccountService.borrowcash(memberid, amount, fromcardid, tocardid,channelid);
-		return new Result<Object>(200,payResult.getDetails(),payResult.getIsNeedSms());
+		return new Result<>(200,payResult.getDetails(),payResult.getIsNeedSms());
 	}
 	/**
 	 * 根据会员编号获取账户信息
@@ -110,7 +110,7 @@ public class MemberAccountController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/getByMemberid")
-	public Result<Object> getByMemberid(@RequestAttribute(value="memberid"  )long memberid){
+	public Result<Object> getByMemberid(@RequestAttribute(value="memberid")long memberid){
 		MemberAccount memberAccount=memberAccountService.getByMemberid(memberid);
 		MemberAccountVo.DetailVo detailVo=new MemberAccountVo().new DetailVo();
 		detailVo.setTotalProfit(memberProfitService.sumProfitByMemberid(memberid));
@@ -118,6 +118,6 @@ public class MemberAccountController {
 		detailVo.setCurDayProfit(memberProfitService.sumProfitByMemberidAndDate(memberid,DateUtils.getDateStr(new Date())));
 		detailVo.setUsableBalance(memberAccount.getUsableBalance());
 		detailVo.setLockBalance(memberAccount.getLockBalance());
-		return new Result<Object>(200,null,detailVo);
+		return new Result<>(200,null,detailVo);
 	}
 }

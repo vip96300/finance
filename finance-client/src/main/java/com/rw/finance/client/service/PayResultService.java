@@ -37,4 +37,12 @@ public interface PayResultService {
 	 * @param TradeNo
 	 */
 	void jdsoftPayBack(String TradeNo);
+
+	/**
+	 * 银生宝绑卡成功回调
+	 * @param memberId 会员编号
+	 * @param cardNo 银行卡尾号
+	 * @Param token 银生宝绑卡唯一编号
+	 */
+	void unspayH5BindBack(long memberId,String cardNo,String token);
 }

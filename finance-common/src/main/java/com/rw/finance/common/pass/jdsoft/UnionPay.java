@@ -31,7 +31,7 @@ public class UnionPay {
     paramList.add(new BasicNameValuePair("reqMsgId", orderInfo.getTradeNo()));
     // 银联快捷，1-银联无积分、3-银联有积分
     paramList.add(new BasicNameValuePair("type", "3"));
-    paramList.add(new BasicNameValuePair("payerName",userInfo.getPayerRealName()));
+    paramList.add(new BasicNameValuePair("payerName",userInfo.getPayerrealName()));
     paramList.add(new BasicNameValuePair("payerIdCard", userInfo.getPayerIdNo()));
     paramList.add(new BasicNameValuePair("payerMobile",cardInfo.getPayerCardMobile()));
     paramList.add(new BasicNameValuePair("payerBankCard",cardInfo.getPayerCardNo()));

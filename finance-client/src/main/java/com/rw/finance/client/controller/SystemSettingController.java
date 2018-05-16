@@ -31,6 +31,6 @@ public class SystemSettingController {
 	@PostMapping(value="/listByIsapp")
 	public Result<Object> listByIsapp(){
 		List<SystemSetting> systemSettings=systemSettingService.listByIsapp();
-		return new Result<Object>(200,null,systemSettings);
+		return new Result<>(200,null,systemSettings);
 	}
 }

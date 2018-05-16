@@ -9,6 +9,7 @@ import com.rw.finance.common.constants.MemberInfoConstants;
 import com.rw.finance.common.entity.MemberAccount;
 import com.rw.finance.common.entity.MemberCard;
 import com.rw.finance.common.entity.MemberInfo;
+import com.rw.finance.common.pass.unspay.Unspay;
 import com.rw.finance.common.utils.DateUtils;
 import com.rw.finance.common.utils.JwtUtil;
 import com.rw.finance.common.utils.Md5Util;
@@ -78,12 +79,17 @@ public class MemberInfoServiceImpl implements MemberInfoService{
 	public void update(MemberInfo memberInfo) {
 		memberInfoMapper.updateByPrimaryKey(memberInfo);
 	}
-	
+
+	/**
+	 * 报件，同时要绑卡
+	 * @param memberInfo
+	 * @param memberCard
+	 */
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public void isReal(MemberInfo memberInfo, MemberCard memberCard) {
 		memberInfoMapper.updateByPrimaryKey(memberInfo);
-		//如果该会员的邀请者满足升级条件，升级会员
+		//如果该会员的邀请者满足升级条件，升级会员,需要向第三方修改费率等信息
 		MemberInfo parent=memberInfoMapper.selectByPrimaryKey(memberInfo.getParentId());
 		if(parent!=null){
 			long childCount=memberInfoMapper.countByParentIdAndIsReal(parent.getMemberId(), Constants.YN.Y.getValue());
@@ -96,6 +102,11 @@ public class MemberInfoServiceImpl implements MemberInfoService{
 				parent.setLevelTime(MemberInfoConstants.LEVEL_TIME_DEFAULT);
 				memberInfoMapper.updateByPrimaryKey(parent);
 				log.debug("upgrade,memberId:{},leveled:{}",parent.getMemberId(),parent.getLevel());
+				Map<String,String> map=Unspay.reportUpdate(String.valueOf(parent.getMemberId()),parent.getMemberToken(),0D,0D,0D,0D);
+				if(!"0000".equals(map.get("result_code"))||"1018".equals(map.get("aduitCode"))){
+					//抛出异常使事物回滚
+					throw new RuntimeException("report update failed");
+				}
 			}
 		}
 		List<MemberCard> memberCards =memberCardMapper.selectByMemberIdAndTypeAndIsDefAndIsDel(memberCard.getMemberId(),MemberCardConstatns.Type.TYPE1.getType(), 1,0);
@@ -103,7 +114,6 @@ public class MemberInfoServiceImpl implements MemberInfoService{
 		memberCard.setStatus(MemberCardConstatns.Status.STATUS1.getStatus());
 		memberCardMapper.updateByPrimaryKey(memberCard);
 	}
-
 	
 	@Transactional(rollbackFor=Exception.class)
 	@Override

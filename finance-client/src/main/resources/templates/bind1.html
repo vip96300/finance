@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>绑定银行卡</title>
+    <link rel="stylesheet" href="http://114.80.54.76:48081/unspay-creditCardRepayment-business/h5/bind/css/index.css"/>
+    <script src="http://114.80.54.76:48081/unspay-creditCardRepayment-business/h5/bind/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">            //	    响应式布局			document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';			window.addEventListener('resize', function() {				document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';			})		</script>
+</head>
+<body>
+<div class="unspay bindcard clearfix">
+    <form action="/unspay-creditCardRepayment-business/bind/h5bindInfo" method="post">
+        <div class="bindheader">
+            <p class="merchantName"> 商户名称：荣耀致新（重庆）网络科技有限公司 </p>
+            <p class=""> 为了保障您的资金安全，以下信息用于银行进行真实姓名核对，核对无误后请完成银行卡绑定，请如实填写。 </p>
+        </div>
+        <div>
+            <p class="name">
+                <label class="sub-name">卡号</label>
+                <input type="text" name="cardNo" placeholder="请输入银行卡号" id="username">
+                <input type="hidden" name="merchantNo" id="merchantNo" value="2110000000000000000375"/>
+                <input type="hidden" name="name" id="name" value="陈浩"/>
+                <input type="hidden" name="responseUrl" id="responseUrl" value="http://huanghongfei.free.ngrok.cc/pay/back/unspay/h5BindBack"/>
+            </p>
+            <p class="card-mes">
+                <span>
+                    <a href="http://114.80.54.76:48081/unspay-creditCardRepayment-business/h5/bind/bankList.jsp">查看支持银行卡列表</a>
+                </span>
+            </p>
+            <div class="btn">
+                <button id="btnSubmit" type="button">下一步</button>
+            </div>
+        </div>
+    </form>
+</div>
+<footer class="logo1 clearfix" style="text-align: center;margin-top: 0.3rem;"><img src="http://114.80.54.76:48081/unspay-creditCardRepayment-business/h5/bind/img/logo.png" alt=""/></footer>
+<!--提示弹框-->
+<div class="mask"></div>
+<div class="alert">
+    <h1>温馨提示</h1>
+    <p>不正确</p>
+    <span class="iknow">知道了</span>
+</div>
+<script>
+    /* var scrollHeight = $(document.body).height();
+    var clientHeight = $(window).height();
+    if(scrollHeight < clientHeight) {
+        $(".logo1").css({
+            'width': '100%',
+            'position': 'absolute',
+            'textAlign': 'center',
+            'bottom': '0',
+         })
+    } else {
+        $(".logo1").css({
+        	'height': 'scrollHeight',
+        	'textAlign': 'center'
+     })
+     } */
+</script>
+<script>
+
+    var username = $("#username"),
+        IDcard = $("#IDcard"),
+        input = $("form").find("input");
+    var a;
+    var btnSubmit = document.getElementById("btnSubmit");
+
+    var reg1 = /^\d{6,32}$/;
+    //    var reg2=/^1[34578]\d{9}$/;
+
+    function check() {
+        if(!reg1.test(username.val())) {
+            shown("请填写您的银行卡号");
+            a = false;
+            //return;
+        } else {
+            a = true;
+        }
+    };
+
+    username.on("input", function() {
+        if($(this).val() == "") {
+            a = false;
+        } else {
+            a = true;
+        }
+        ss()
+    })
+
+    btnSubmit.onclick = function() {
+        //check();
+        if(!reg1.test(username.val())) {
+            shown("请填写您的银行卡号");
+            //a = false;
+            return;
+        }
+        $("form").submit();
+    }
+
+    function ss() {
+        if(a) {
+            btnSubmit.style.backgroundColor = "#0068B7";
+            btnSubmit.style.pointerEvents = "auto";
+        } else {
+
+            btnSubmit.style.backgroundColor = "#DFE1E5";
+            btnSubmit.style.pointerEvents = "none";
+            btnSubmit.type = "button";
+
+        }
+    };
+
+    function closed(target) {
+        $(".mask").hide();
+        $(".alert").hide();
+    };
+
+    function shown(mes) {
+        var ele = document.documentElement || document.dody;
+        var x = (ele.clientWidth - $(".alert").width()) / 2;
+        var y = (ele.clientHeight - $(".alert").height()) / 2;
+        $(".alert").css({
+            left: x,
+            top: y
+        });
+
+        $(".mask").show();
+        $(".alert").show();
+        $(".alert").find("p").html(mes);
+    };
+
+    $(".iknow").on("click", function() {
+        closed();
+    });
+
+    // $(".mask").on("click",function(){
+    //      closed();
+    //});
+
+</script>
+</body>
+</html>

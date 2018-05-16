@@ -1,6 +1,5 @@
 package com.rw.finance.common.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rw.finance.common.constants.MemberCardConstatns;
 import com.rw.finance.common.utils.BankUtils;
 import com.rw.finance.common.utils.DateUtils;
@@ -15,25 +14,25 @@ public class MemberCard implements Serializable {
      * 借记卡
      * @param memberid
      * @param bankid
-     * @param RealName
+     * @param realName
      * @param cardno
      * @param bankcode
      * @param BankName
      * @param banklogo
      * @param cardcolor
      */
-    public MemberCard(long memberid,String IdNumber,long bankid,String RealName,
+    public MemberCard(long memberid,String idNumber,long bankid,String realName,
                       String cardno,String mobile,String bankcode,String BankName,
                       String abbreviation,String banklogo,String cardcolor,String bankextra){
         this.memberId=memberid;
-        this.IdNumber=IdNumber;
+        this.idNumber=idNumber;
         this.bankId=bankid;
-        this.RealName=RealName;
+        this.realName=realName;
         this.cardNo=cardno;
         this.mobile=mobile;
         this.authCode="000";
         this.bankCode=bankcode;
-        this.BankName=BankName;
+        this.bankName=BankName;
         this.bankLogo=banklogo;
         this.cardColor=cardcolor;
         this.type= MemberCardConstatns.Type.TYPE1.getType();
@@ -53,10 +52,10 @@ public class MemberCard implements Serializable {
     /**
      * 贷记卡
      * @param memberid
-     * @param IdNumber
+     * @param idNumber
      * @param bankid
      * @param cardno
-     * @param RealName
+     * @param realName
      * @param expirydate
      * @param authcode
      * @param billdate
@@ -67,22 +66,22 @@ public class MemberCard implements Serializable {
      * @param banklogo
      * @param bankcolor
      */
-    public MemberCard(long memberid,String IdNumber,long bankid,String cardno,
-                      String RealName,String expirydate,String authcode,String billdate,
+    public MemberCard(long memberid,String idNumber,long bankid,String cardno,
+                      String realName,String expirydate,String authcode,String billdate,
                       String repaydate,String mobile,String bankcode,String BankName,String abbreviation,
                       String banklogo,String cardcolor,String bankextra){
         this.memberId=memberid;
-        this.IdNumber=IdNumber;
+        this.idNumber=idNumber;
         this.bankId=bankid;
         this.cardNo=cardno;
-        this.RealName=RealName;
+        this.realName=realName;
         this.expiryDate=expirydate;
         this.authCode=authcode;
         this.billDate=billdate;
         this.repayDate=repaydate;
         this.mobile=mobile;
         this.bankCode=bankcode;
-        this.BankName=BankName;
+        this.bankName=BankName;
         this.bankLogo=banklogo;
         this.cardColor=cardcolor;
         this.type=MemberCardConstatns.Type.TYPE2.getType();
@@ -101,53 +100,60 @@ public class MemberCard implements Serializable {
     }
 
     private Long cardId;
-    @JsonIgnore
+
+    /**
+     * 三方通道分配的唯一编号
+     *
+     * @mbg.generated
+     */
+    private String cardToken;
+
     private String abbreviation;
-    @JsonIgnore
+
     private String authCode;
-    @JsonIgnore
+
     private String bankCode;
 
     private Long bankId;
 
     private String bankLogo;
 
-    private String BankName;
+    private String bankName;
 
     private String billDate;
 
     private String cardColor;
 
     private String cardNo;
-    @JsonIgnore
+
     private String cardPath;
-    @JsonIgnore
+
     private String city;
-    @JsonIgnore
+
     private String createTime;
-    @JsonIgnore
+
     private String expiryDate;
-    @JsonIgnore
-    private String IdNumber;
+
+    private String idNumber;
 
     private Integer isDef;
-    @JsonIgnore
+
     private Integer isDel;
-    @JsonIgnore
+
     private Long memberId;
-    @JsonIgnore
+
     private String mobile;
-    @JsonIgnore
+
     private String province;
 
-    private String RealName;
+    private String realName;
 
     private String repayDate;
-    @JsonIgnore
+
     private Integer status;
 
     private Integer type;
-    @JsonIgnore
+
     private String updateTime;
 
     private String bankExtra;
@@ -169,6 +175,14 @@ public class MemberCard implements Serializable {
 
     public void setCardId(Long cardId) {
         this.cardId = cardId;
+    }
+
+    public String getCardToken() {
+        return cardToken;
+    }
+
+    public void setCardToken(String cardToken) {
+        this.cardToken = cardToken;
     }
 
     public String getAbbreviation() {
@@ -212,11 +226,11 @@ public class MemberCard implements Serializable {
     }
 
     public String getBankName() {
-        return BankName;
+        return bankName;
     }
 
-    public void setBankName(String BankName) {
-        this.BankName = BankName;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getBillDate() {
@@ -276,11 +290,11 @@ public class MemberCard implements Serializable {
     }
 
     public String getIdNumber() {
-        return IdNumber;
+        return idNumber;
     }
 
-    public void setIdNumber(String IdNumber) {
-        this.IdNumber = IdNumber;
+    public void setidNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public Integer getIsDef() {
@@ -324,11 +338,11 @@ public class MemberCard implements Serializable {
     }
 
     public String getRealName() {
-        return RealName;
+        return realName;
     }
 
-    public void setRealName(String RealName) {
-        this.RealName = RealName;
+    public void setrealName(String realName) {
+        this.realName = realName;
     }
 
     public String getRepayDate() {
@@ -394,12 +408,13 @@ public class MemberCard implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", cardId=").append(cardId);
+        sb.append(", cardToken=").append(cardToken);
         sb.append(", abbreviation=").append(abbreviation);
         sb.append(", authCode=").append(authCode);
         sb.append(", bankCode=").append(bankCode);
         sb.append(", bankId=").append(bankId);
         sb.append(", bankLogo=").append(bankLogo);
-        sb.append(", BankName=").append(BankName);
+        sb.append(", bankName=").append(bankName);
         sb.append(", billDate=").append(billDate);
         sb.append(", cardColor=").append(cardColor);
         sb.append(", cardNo=").append(cardNo);
@@ -407,13 +422,13 @@ public class MemberCard implements Serializable {
         sb.append(", city=").append(city);
         sb.append(", createTime=").append(createTime);
         sb.append(", expiryDate=").append(expiryDate);
-        sb.append(", IdNumber=").append(IdNumber);
+        sb.append(", idNumber=").append(idNumber);
         sb.append(", isDef=").append(isDef);
         sb.append(", isDel=").append(isDel);
         sb.append(", memberId=").append(memberId);
         sb.append(", mobile=").append(mobile);
         sb.append(", province=").append(province);
-        sb.append(", RealName=").append(RealName);
+        sb.append(", realName=").append(realName);
         sb.append(", repayDate=").append(repayDate);
         sb.append(", status=").append(status);
         sb.append(", type=").append(type);
@@ -436,6 +451,7 @@ public class MemberCard implements Serializable {
         }
         MemberCard other = (MemberCard) that;
         return (this.getCardId() == null ? other.getCardId() == null : this.getCardId().equals(other.getCardId()))
+            && (this.getCardToken() == null ? other.getCardToken() == null : this.getCardToken().equals(other.getCardToken()))
             && (this.getAbbreviation() == null ? other.getAbbreviation() == null : this.getAbbreviation().equals(other.getAbbreviation()))
             && (this.getAuthCode() == null ? other.getAuthCode() == null : this.getAuthCode().equals(other.getAuthCode()))
             && (this.getBankCode() == null ? other.getBankCode() == null : this.getBankCode().equals(other.getBankCode()))
@@ -468,6 +484,7 @@ public class MemberCard implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getCardId() == null) ? 0 : getCardId().hashCode());
+        result = prime * result + ((getCardToken() == null) ? 0 : getCardToken().hashCode());
         result = prime * result + ((getAbbreviation() == null) ? 0 : getAbbreviation().hashCode());
         result = prime * result + ((getAuthCode() == null) ? 0 : getAuthCode().hashCode());
         result = prime * result + ((getBankCode() == null) ? 0 : getBankCode().hashCode());

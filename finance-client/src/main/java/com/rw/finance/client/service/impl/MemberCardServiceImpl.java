@@ -4,6 +4,7 @@ import com.rw.finance.common.constants.MemberCardConstatns;
 import com.rw.finance.client.service.MemberCardService;
 import com.rw.finance.client.dao.MemberCardMapper;
 import com.rw.finance.common.entity.MemberCard;
+import com.rw.finance.common.pass.unspay.Unspay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,11 @@ import org.springframework.util.StringUtils;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * @author
+ */
 @Service
 public class MemberCardServiceImpl implements MemberCardService{
 
@@ -63,7 +68,8 @@ public class MemberCardServiceImpl implements MemberCardService{
 	public boolean isExsit(String cardno) {
 		List<MemberCard> memberCardList=memberCardMapper.selectByCardNoAndStatusAndIsDel(cardno, MemberCardConstatns.Status.STATUS1.getStatus(),0);
 		if(!memberCardList.isEmpty()){
-			return true;//卡片已存在
+			//卡片已存在
+			return true;
 		}
 		return false;
 	}
@@ -71,14 +77,17 @@ public class MemberCardServiceImpl implements MemberCardService{
 	@Override
 	public List<MemberCard> listByMemberidAndType(long memberid, int type) {
 		List<MemberCard> memberCards =memberCardMapper.selectByMemberIdAndTypeAndStatusAndIsDel(memberid,type,MemberCardConstatns.Status.STATUS1.getStatus(),0);
-		if(type==MemberCardConstatns.Type.TYPE2.getType()){//如果是贷记卡，计算今日到账单日和今日到还款日的天数
+		//如果是贷记卡，计算今日到账单日和今日到还款日的天数
+		if(type==MemberCardConstatns.Type.TYPE2.getType()){
 			Calendar today=Calendar.getInstance();
 			memberCards.forEach(memberCard->{
 				Calendar toDate=Calendar.getInstance();
 				toDate.set(Calendar.DATE,Integer.valueOf(memberCard.getBillDate()));
-				memberCard.setToBillDate(toDate.get(Calendar.DAY_OF_YEAR)-today.get(Calendar.DAY_OF_YEAR));//今天至账单日天数
+				//今天至账单日天数
+				memberCard.setToBillDate(toDate.get(Calendar.DAY_OF_YEAR)-today.get(Calendar.DAY_OF_YEAR));
 				toDate.set(Calendar.DATE,Integer.valueOf(memberCard.getRepayDate()));
-				memberCard.setToRepayDate(toDate.get(Calendar.DAY_OF_YEAR)-today.get(Calendar.DAY_OF_YEAR));//今天至还款日天数
+				//今天至还款日天数
+				memberCard.setToRepayDate(toDate.get(Calendar.DAY_OF_YEAR)-today.get(Calendar.DAY_OF_YEAR));
 			});
 		}
 		return memberCards;
@@ -98,16 +107,20 @@ public class MemberCardServiceImpl implements MemberCardService{
 	public MemberCard getByMemberidAndCardidAndType(long memberid, long cardid,int type) {
 		return memberCardMapper.selectByMemberIdAndCardIdAndType(memberid, cardid, type);
 	}
+
 	@Override
 	public void delByMemberidAndCardid(long memberid, long cardid) {
 		MemberCard memberCard=memberCardMapper.selectByMemberIdAndCardId(memberid, cardid);
-		if(StringUtils.isEmpty(memberCard)){
+		if(memberCard==null){
 			return;
 		}
 		memberCard.setIsDel(1);
 		memberCardMapper.updateByPrimaryKey(memberCard);
 	}
-	
 
-	
+	@Override
+	public List<MemberCard> listByMemberIdAndCardNoLike(long memberId, String cardNo) {
+		List<MemberCard> memberCardList=memberCardMapper.selectByMemberIdAndCardNoLike(memberId,cardNo);
+		return memberCardList;
+	}
 }

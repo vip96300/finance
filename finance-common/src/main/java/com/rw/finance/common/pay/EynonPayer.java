@@ -23,7 +23,7 @@ public class EynonPayer implements Payer{
 
 	@Override
 	public PayResult auth(UserInfo userInfo,CardInfo cardInfo,OrderInfo orderInfo) {
-		BankUtils.AuthResult result=BankUtils.auth(new BankUtils().new CardInfo(cardInfo.getPayerCardNo(), userInfo.getPayerRealName(), userInfo.getPayerIdNo(),cardInfo.getPayerCardMobile()));
+		BankUtils.AuthResult result=BankUtils.auth(new BankUtils().new CardInfo(cardInfo.getPayerCardNo(), userInfo.getPayerrealName(), userInfo.getPayerIdNo(),cardInfo.getPayerCardMobile()));
 		boolean success=false;
 		if(result.getError_code()==0){//储蓄卡鉴权
 			success=true;

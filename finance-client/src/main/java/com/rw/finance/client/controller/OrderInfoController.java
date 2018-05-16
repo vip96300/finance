@@ -35,12 +35,12 @@ public class OrderInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByMemberidAndType")
-	public Result<Object> listByMemberidAndType(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="type"  )int type,
+	public Result<Object> listByMemberidAndType(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="type")int type,
 			@RequestParam(value="page",required=false,defaultValue="0")int page,
 			@RequestParam(value="size",required=false,defaultValue="100")int size){
 		List<OrderInfo> orderInfos=orderInfoService.listByMemberidAndType(memberid,type, page, size);
-		return new Result<Object>(200,null,orderInfos.stream().filter(orderInfo -> {
+		return new Result<>(200,null,orderInfos.stream().filter(orderInfo -> {
 			return orderInfo.getType().intValue()== OrderInfoConstants.Type.MemberBorrowOrder.getType()&&orderInfo.getStatus().intValue()==OrderInfoConstants.Status.STATUS0.getStatus()?false:true;
 		}).toArray());
 	}

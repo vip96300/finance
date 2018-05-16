@@ -50,4 +50,8 @@ public interface MemberCardMapper {
     @Select("select * from member_card o where o.member_id=#{memberId} and o.card_id=#{cardId}")
     @ResultMap(value={"BaseResultMap"})
     MemberCard selectByMemberIdAndCardId(@Param("memberId") long memberId, @Param("cardId") long cardId);
+
+    @Select("select * from member_card o where o.member_id=#{memberId} and o.card_no like concat('%',#{cardNo}) and o.is_del=0 and o.status=0")
+    @ResultMap(value={"BaseResultMap"})
+    List<MemberCard> selectByMemberIdAndCardNoLike(@Param("memberId") long memberId, @Param("cardNo") String cardNo);
 }

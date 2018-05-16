@@ -3,6 +3,7 @@
 <mapper namespace="com.rw.finance.client.dao.MemberCardMapper">
   <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.MemberCard">
     <id column="card_id" jdbcType="BIGINT" property="cardId" />
+    <result column="card_token" jdbcType="VARCHAR" property="cardToken" />
     <result column="abbreviation" jdbcType="VARCHAR" property="abbreviation" />
     <result column="auth_code" jdbcType="VARCHAR" property="authCode" />
     <result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
@@ -88,10 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    card_id, abbreviation, auth_code, bank_code, bank_id, bank_logo, bank_name, bill_date, 
-    card_color, card_no, card_path, city, create_time, expiry_date, id_number, is_def, 
-    is_del, member_id, mobile, province, real_name, repay_date, status, type, update_time, 
-    bank_extra
+    card_id, card_token, abbreviation, auth_code, bank_code, bank_id, bank_logo, bank_name, 
+    bill_date, card_color, card_no, card_path, city, create_time, expiry_date, id_number, 
+    is_def, is_del, member_id, mobile, province, real_name, repay_date, status, type, 
+    update_time, bank_extra
   </sql>
   <select id="selectByExample" parameterType="com.rw.finance.common.entity.MemberCardExample" resultMap="BaseResultMap">
     select
@@ -132,24 +133,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.rw.finance.common.entity.MemberCard">
-    insert into member_card (card_id, abbreviation, auth_code, 
-      bank_code, bank_id, bank_logo, 
-      bank_name, bill_date, card_color, 
-      card_no, card_path, city, 
-      create_time, expiry_date, id_number, 
-      is_def, is_del, member_id, 
-      mobile, province, real_name, 
-      repay_date, status, type, 
-      update_time, bank_extra)
-    values (#{cardId,jdbcType=BIGINT}, #{abbreviation,jdbcType=VARCHAR}, #{authCode,jdbcType=VARCHAR}, 
-      #{bankCode,jdbcType=VARCHAR}, #{bankId,jdbcType=BIGINT}, #{bankLogo,jdbcType=VARCHAR}, 
-      #{bankName,jdbcType=VARCHAR}, #{billDate,jdbcType=VARCHAR}, #{cardColor,jdbcType=VARCHAR}, 
-      #{cardNo,jdbcType=VARCHAR}, #{cardPath,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=VARCHAR}, #{expiryDate,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
-      #{isDef,jdbcType=INTEGER}, #{isDel,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT}, 
-      #{mobile,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
-      #{repayDate,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=VARCHAR}, #{bankExtra,jdbcType=VARCHAR})
+    insert into member_card (card_id, card_token, abbreviation, 
+      auth_code, bank_code, bank_id, 
+      bank_logo, bank_name, bill_date, 
+      card_color, card_no, card_path, 
+      city, create_time, expiry_date, 
+      id_number, is_def, is_del, 
+      member_id, mobile, province, 
+      real_name, repay_date, status, 
+      type, update_time, bank_extra
+      )
+    values (#{cardId,jdbcType=BIGINT}, #{cardToken,jdbcType=VARCHAR}, #{abbreviation,jdbcType=VARCHAR}, 
+      #{authCode,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, #{bankId,jdbcType=BIGINT}, 
+      #{bankLogo,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{billDate,jdbcType=VARCHAR}, 
+      #{cardColor,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{cardPath,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{expiryDate,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{isDef,jdbcType=INTEGER}, #{isDel,jdbcType=INTEGER}, 
+      #{memberId,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{repayDate,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{updateTime,jdbcType=VARCHAR}, #{bankExtra,jdbcType=VARCHAR}
+      )
     <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="cardId">
       SELECT  LAST_INSERT_ID()
     </selectKey>
@@ -159,6 +162,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cardId != null">
         card_id,
+      </if>
+      <if test="cardToken != null">
+        card_token,
       </if>
       <if test="abbreviation != null">
         abbreviation,
@@ -239,6 +245,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="cardId != null">
         #{cardId,jdbcType=BIGINT},
+      </if>
+      <if test="cardToken != null">
+        #{cardToken,jdbcType=VARCHAR},
       </if>
       <if test="abbreviation != null">
         #{abbreviation,jdbcType=VARCHAR},
@@ -332,6 +341,9 @@
       <if test="record.cardId != null">
         card_id = #{record.cardId,jdbcType=BIGINT},
       </if>
+      <if test="record.cardToken != null">
+        card_token = #{record.cardToken,jdbcType=VARCHAR},
+      </if>
       <if test="record.abbreviation != null">
         abbreviation = #{record.abbreviation,jdbcType=VARCHAR},
       </if>
@@ -415,6 +427,7 @@
   <update id="updateByExample" parameterType="map">
     update member_card
     set card_id = #{record.cardId,jdbcType=BIGINT},
+      card_token = #{record.cardToken,jdbcType=VARCHAR},
       abbreviation = #{record.abbreviation,jdbcType=VARCHAR},
       auth_code = #{record.authCode,jdbcType=VARCHAR},
       bank_code = #{record.bankCode,jdbcType=VARCHAR},
@@ -447,6 +460,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.MemberCard">
     update member_card
     <set>
+      <if test="cardToken != null">
+        card_token = #{cardToken,jdbcType=VARCHAR},
+      </if>
       <if test="abbreviation != null">
         abbreviation = #{abbreviation,jdbcType=VARCHAR},
       </if>
@@ -527,7 +543,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.MemberCard">
     update member_card
-    set abbreviation = #{abbreviation,jdbcType=VARCHAR},
+    set card_token = #{cardToken,jdbcType=VARCHAR},
+      abbreviation = #{abbreviation,jdbcType=VARCHAR},
       auth_code = #{authCode,jdbcType=VARCHAR},
       bank_code = #{bankCode,jdbcType=VARCHAR},
       bank_id = #{bankId,jdbcType=BIGINT},

@@ -4,10 +4,6 @@ import com.google.gson.Gson;
 import com.rw.finance.client.vo.SystemVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import com.rw.finance.client.service.BaseCacheService;
 import com.rw.finance.client.service.SystemSettingService;
 /**
  * 
@@ -22,18 +18,12 @@ public class SystemSetting {
 	@Autowired
 	private SystemSettingService systemSettingService;
 
-	@Autowired
-	private BaseCacheService baseCacheService;
 	/**
 	 * 二维码上面的报文地址
 	 * @return
 	 */
 	public String QR_CODE_SHARE_URL_REQUEST(){
 		String key="QR_CODE_SHARE_URL_REQUEST";
-		Object value=baseCacheService.get(key,String.class);
-		if(!StringUtils.isEmpty(value)){
-			return value.toString();
-		}
 		return systemSettingService.getByDictkey(key).getDictVal();
 	}
 	/**
@@ -42,10 +32,6 @@ public class SystemSetting {
 	 */
 	public String QR_CODE_SHARE_URL_REDIRECT(){
 		String key="QR_CODE_SHARE_URL_REDIRECT";
-		Object value=baseCacheService.get(key,String.class);
-		if(!StringUtils.isEmpty(value)){
-			return value.toString();
-		}
 		return systemSettingService.getByDictkey(key).getDictVal();
 	}
 
@@ -65,10 +51,6 @@ public class SystemSetting {
 	 */
 	public double getLevelUpgradePrice(int level){
 		String key="MEMBER_INFO_LEVEL"+(level+1)+"_PRICE";
-		Object value=baseCacheService.get(key,String.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString().split("/")[0]);
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal().split("/")[0]);
 	}
 	/**
@@ -78,10 +60,6 @@ public class SystemSetting {
 	 */
 	public int getLevelThreshold (int level){
 		String key="MEMBER_INFO_LEVEL"+(level+1)+"_PRICE";
-		Object value=baseCacheService.get(key,String.class);
-		if(!StringUtils.isEmpty(value)){
-			return Integer.valueOf(value.toString().split("/")[1]);
-		}
 		return Integer.parseInt(systemSettingService.getByDictkey(key).getDictVal().split("/")[1]);
 	}
 	/**
@@ -91,10 +69,6 @@ public class SystemSetting {
 	 */
 	public double getLevelPrice(int level){
 		String key="MEMBER_INFO_LEVEL"+level+"_PRICE";
-		Object value=baseCacheService.get(key,String.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString().split("/")[2]);
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal().split("/")[2]);
 	}
 	/**
@@ -103,10 +77,6 @@ public class SystemSetting {
 	 */
 	public double PAY_SYSTEM_RATE(){
 		String key="PAY_SYSTEM_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString());
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal());
 	}
 	/**
@@ -116,10 +86,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_PROFIT_REPAY_LEVEL_RATE(int level){
 		String key="MEMBER_PROFIT_REPAY_LEVEL"+level+"_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString());
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal());
 	}
 	/**
@@ -129,10 +95,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_PROFIT_CASH_LEVEL_RATE(int level){
 		String key="MEMBER_PROFIT_CASH_LEVEL"+level+"_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString());
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal());
 	}
 	/**
@@ -142,10 +104,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_PROFIT_BORROW_LEVEL_RATE(int level){
 		String key="MEMBER_PROFIT_BORROW_LEVEL"+level+"_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString());
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal());
 	}
 	/**
@@ -155,10 +113,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_PROFIT_ACTIVE_LEVEL_RATE_D(int level){
 		String key="MEMBER_PROFIT_ACTIVE_LEVEL"+level+"_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString().split("/")[0]);
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal().split("/")[0]);
 	}
 	/**
@@ -168,10 +122,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_PROFIT_ACTIVE_LEVEL_RATE_DD(int level){
 		String key="MEMBER_PROFIT_ACTIVE_LEVEL"+level+"_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString().split("/")[1]);
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal().split("/")[1]);
 	}
 
@@ -181,10 +131,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_REPAY_AGENT_PROFIT_TOTAL_RATE(){
 		String key="MEMBER_REPAY_AGENT_PROFIT_TOTAL_RATE";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString());
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal());
 	}
 
@@ -194,10 +140,6 @@ public class SystemSetting {
 	 */
 	public double MEMBER_CASH_MIN_AMOUNT(){
 		String key="MEMBER_CASH_MIN_AMOUNT";
-		Object value=baseCacheService.get(key,Double.class);
-		if(!StringUtils.isEmpty(value)){
-			return Double.parseDouble(value.toString());
-		}
 		return Double.parseDouble(systemSettingService.getByDictkey(key).getDictVal());
 	}
 	/**
@@ -206,10 +148,6 @@ public class SystemSetting {
 	 */
 	public String SYSTEM_MAIL_TASK_TO(){
 		String key="SYSTEM_MAIL_TASK_TO";
-		Object value=baseCacheService.get(key,String.class);
-		if(!StringUtils.isEmpty(value)){
-			return value.toString();
-		}
 		return systemSettingService.getByDictkey(key).getDictVal();
 	}
 }

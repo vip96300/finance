@@ -19,7 +19,7 @@ public interface Payer {
 	/**
 	 * 银行卡三元认证
 	 * @param OrderInfo.TradeNo 系统流水号
-	 * @param UserInfo.idRealName 真是姓名
+	 * @param UserInfo.idrealName 真是姓名
 	 * @param UserInfo.idNo 证件号码
 	 * @param CardInfo.cardNo 卡号
 	 * @return PayResult.class
@@ -29,7 +29,7 @@ public interface Payer {
 	 * 用户支付给公司
 	 * @param OrderInfo.TradeNo 系统流水号
 	 * @param UserInfo.idNo 身份证号码
-	 * @param UserInfo.idRealName 身份证真实姓名
+	 * @param UserInfo.idrealName 身份证真实姓名
 	 * @param CardInfo.BankName 银行名称
 	 * @param CardInfo.cardNo 银行卡号
 	 * @param CardInfo.moible 预留电话
@@ -55,7 +55,7 @@ public interface Payer {
 	 * 公司支付给用户
 	 * @param OrderInfo.TradeNo 系统流水号
 	 * @param UserInfo.idNo 身份证号码
-	 * @param UserInfo.idRealName 身份证真实姓名
+	 * @param UserInfo.idrealName 身份证真实姓名
 	 * @param CardInfo.BankName 银行名称
 	 * @param CardInfo.cardNo 银行卡号
 	 * @param CardInfo.moible 预留电话

@@ -22,6 +22,6 @@ public class ExceptionController {
 	public Result<Object> exception(HttpServletRequest request,
 									HttpServletResponse response,
 									Exception e){
-		return new Result<Object>(999,"系统异常",null);
+		return new Result<>(999,"系统异常",null);
 	}
 }

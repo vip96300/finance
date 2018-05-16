@@ -18,6 +18,7 @@ import com.rw.finance.client.utils.HttpUtils;
 import com.rw.finance.common.pass.chuangxin.ChuangXinPay;
 import com.rw.finance.common.pass.unspay.Unspay;
 import com.rw.finance.common.pass.unspay.UnspayConstants;
+import com.rw.finance.common.pass.unspay.utils.UnspayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class PayResultController {
 	 * @return
 	 */
 	@RequestMapping(value="/eynonPayBack")
-	public Object eynonBack(@RequestParam(value="merOrderId"  )String merOrderId){
+	public Object eynonBack(@RequestParam(value="merOrderId")String merOrderId){
 		return "success";
 	}
 	/**
@@ -152,27 +153,21 @@ public class PayResultController {
 	}
 
 	/**
-	 * 银生宝绑卡
-	 * @param response
-	 */
-	@RequestMapping(path="/unspay/h5bind")
-	public void h5bind(HttpServletResponse response){
-		Map<String,String> map=Unspay.bindH5bind("98765432","2110000000000000000094");
-		try {
-			HttpUtils.redirect(UnspayConstants.BIND_H5_BIND_URL,map,response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/**
 	 * 银生宝h5绑卡回调地址
 	 * @param request
 	 */
 	@RequestMapping(value="/unspay/h5BindBack")
 	public void h5bindBack(HttpServletRequest request){
+		Map<String,String> params=new HashMap<>(request.getParameterMap().size());
 		for(Map.Entry<String, String[]> map:request.getParameterMap().entrySet()){
-			System.err.println("key="+map.getKey()+",value="+map.getValue()[0]);
+			params.put(map.getKey(),map.getValue()[0]);
 		}
+		//验签
+		if(!UnspayUtils.h5BindBackVerify(params)){
+			log.error("h5BindBack verify failed");
+			return;
+		}
+		payResultService.unspayH5BindBack(Long.valueOf(params.get("memberId")),params.get("cardNo"),params.get("token"));
 	}
 
 	/**
@@ -199,9 +194,16 @@ public class PayResultController {
 	 */
 	@RequestMapping(value="/unspay/quickPayBack")
 	public void quickPayBakc(HttpServletRequest request){
+		Map<String,String> params=new HashMap<>(request.getParameterMap().size());
 		for(Map.Entry<String, String[]> map:request.getParameterMap().entrySet()){
-			System.err.println("key="+map.getKey()+",value="+map.getValue()[0]);
+			params.put(map.getKey(),map.getValue()[0]);
 		}
+		//验签
+		if(!UnspayUtils.quickPayBakcVerify(params)){
+			log.error("h5BindBack verify failed");
+			return;
+		}
+		//TODO 开始回调
 	}
 	/**
 	 * 银生宝还款回调
@@ -209,8 +211,15 @@ public class PayResultController {
 	 */
 	@RequestMapping(value="/unspay/delegatePayBack")
 	public void delegatePayBack(HttpServletRequest request){
+		Map<String,String> params=new HashMap<>(request.getParameterMap().size());
 		for(Map.Entry<String, String[]> map:request.getParameterMap().entrySet()){
-			System.err.println("key="+map.getKey()+",value="+map.getValue()[0]);
+			params.put(map.getKey(),map.getValue()[0]);
 		}
+		//验签
+		if(!UnspayUtils.delegatePayBackVerify(params)){
+			log.error("h5BindBack verify failed");
+			return;
+		}
+		//TODO 开始回调
 	}
 }

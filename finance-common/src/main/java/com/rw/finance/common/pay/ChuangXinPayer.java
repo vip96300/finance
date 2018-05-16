@@ -24,14 +24,15 @@ public class ChuangXinPayer implements Payer{
 	public PayResult pay(UserInfo userInfo, CardInfo cardInfo,OrderInfo orderInfo) {
 		String resultJson=ChuangXinPay.quickPayApply(userInfo, cardInfo, orderInfo);
 		ChuangXinPay.Result result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
-		if(result.getDealCode().equals("10000")){
-			if(result.getNeedSms().equals("0")){//需要发送短信验证码
-				ChuangXinPay.quickPayReSendVfCode(orderInfo);
+		if("10000".equals(result.getDealCode())){
+			//需要发送短信验证码
+			if("0".equals(result.getNeedSms())){
+				result=new Gson().fromJson(ChuangXinPay.quickPayReSendVfCode(orderInfo), ChuangXinPay.Result.class);
 			}else{//不需要短信验证码，但也需要确认
-				ChuangXinPay.quickPayConfirm(orderInfo);
+				result=new Gson().fromJson(ChuangXinPay.quickPayConfirm(orderInfo), ChuangXinPay.Result.class);
 			}
 		}
-		PayResult payResult=new PayResult(result.getDealCode(),result.getDealCode().equals("10000")?true:false, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),"0".equals(result.getNeedSms())?1:0);
+		PayResult payResult=new PayResult(result.getDealCode(),"10000".equals(result.getDealCode())||("10001").equals(result.getDealCode())?true:false, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),"0".equals(result.getNeedSms())?1:0);
 		payResult.setResult(resultJson);
 		return payResult;
 	}
@@ -41,7 +42,7 @@ public class ChuangXinPayer implements Payer{
 		String resultJson=ChuangXinPay.quickPayConfirm(orderInfo);
 		ChuangXinPay.Result result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
 		boolean success=false;
-		if(result.getDealCode().equals("10000")){
+		if("10000".equals(result.getDealCode())){
 			success=true;
 		}
 		return new PayResult(result.getDealCode(), success, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),1);
@@ -54,7 +55,7 @@ public class ChuangXinPayer implements Payer{
 			new PayResult("500", false, orderInfo.getPayTradeNo(), orderInfo.getTradeNo(), "", 0);
 		}
 		ChuangXinPay.Result result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
-		PayResult payResult=new PayResult(result.getDealCode(),result.getDealCode().equals("10000")?true:false, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),"0".equals(result.getNeedSms())?1:0);
+		PayResult payResult=new PayResult(result.getDealCode(),"10000".equals(result.getDealCode())?true:false, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),"0".equals(result.getNeedSms())?1:0);
 		payResult.setResult(resultJson);
 		return payResult;
 	}
@@ -64,7 +65,7 @@ public class ChuangXinPayer implements Payer{
 		String resultJson=ChuangXinPay.payForSameName(userInfo, cardInfo, orderInfo);
 		ChuangXinPay.Result result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
 		boolean success=false;
-		if(result.getDealCode().equals("10000")){
+		if("10000".equals(result.getDealCode())){
 			success=true;
 		}
 		return new PayResult(result.getDealCode(), success, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),1);
@@ -74,12 +75,13 @@ public class ChuangXinPayer implements Payer{
 	public PayResult queryOrder(OrderInfo orderInfo) {
 		String resultJson=ChuangXinPay.payForAnotherOneSearchForQuckly(orderInfo);
 		ChuangXinPay.Result result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
-		if(result.getDealCode().equals("30001")){//快捷查询订单不存在,调用代付查询接口
+		//快捷查询订单不存在,调用代付查询接口
+		if("30001".equals(result.getDealCode())){
 			resultJson=ChuangXinPay.payForAnotherOneSearch(orderInfo);
 			result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
 		}
 		boolean success=false;
-		if(result.getDealCode().equals("10000")){
+		if("10000".equals(result.getDealCode())){
 			success=true;
 		}
 		PayResult payResult=new PayResult(result.getDealCode(), success, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),1);
@@ -92,7 +94,7 @@ public class ChuangXinPayer implements Payer{
 		String resultJson=ChuangXinPay.payForAnotherOne(userInfo, cardInfo, orderInfo);
 		ChuangXinPay.Result result=new Gson().fromJson(resultJson, ChuangXinPay.Result.class);
 		boolean success=false;
-		if(result.getDealCode().equals("10000")){
+		if("10000".equals(result.getDealCode())){
 			success=true;
 		}
 		return new PayResult(result.getDealCode(), success, result.getCxOrderNo(), result.getOrderNo(),result.getDealMsg(),0);

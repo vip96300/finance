@@ -40,7 +40,7 @@ public class PaymentServlet {
 		}
 		//String product = format("RJT");//为空走委托结算出款，值为RJT为日结通出款
 		String urgency=format("0");//当product为日结通出款时该参数不传，0非加急，1加急
-		String accountName = format(userInfo.getPayeeRealName());
+		String accountName = format(userInfo.getPayeerealName());
 		String accountNumber = format(cardInfo.getPayeeCardNo());
 		String bankCode = format(cardInfo.getPayeeBankAbbreviation());
 		String BankName =format("0");

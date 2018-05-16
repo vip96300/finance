@@ -50,7 +50,7 @@ public class PayChannelController {
 			}
 			channel.setMemberLevels(memberLevels);
 		});
-		return new Result<Object>(200,null,payChannels);
+		return new Result<>(200,null,payChannels);
 	}
 	
 }

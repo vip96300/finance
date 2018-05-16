@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -159,7 +160,8 @@ public class PayResultServiceImpl implements PayResultService{
 					memberProfitTotal=this.borrowMemberProfit(memberInfo.getParentId(), memberInfo, orderInfo, 1, 2,memberProfitTotal);
 				}
 				double agentProfitTotal=0;
-				if(payResult.getSuccess()&&!StringUtils.isEmpty(memberInfo.getAgentId())){//代理分润
+				//代理分润
+				if(payResult.getSuccess()&&!StringUtils.isEmpty(memberInfo.getAgentId())){
 					agentProfitTotal=this.borrowAgentProfit(memberInfo.getAgentId(), memberInfo, orderInfo, memberProfitTotal,agentProfitTotal,0);
 				}
 				if(orderInfo.getStatus().intValue()==OrderInfoConstants.Status.STATUS1.getStatus()){
@@ -169,6 +171,18 @@ public class PayResultServiceImpl implements PayResultService{
 				}
 			}
 		}
+	}
+
+	@Override
+	public void unspayH5BindBack(long memberId, String cardNo,String token) {
+		List<MemberCard> memberCardList=memberCardService.listByMemberIdAndCardNoLike(memberId,cardNo);
+		if(memberCardList.isEmpty()){
+			throw new RuntimeException("memberCardList cant be null");
+		}
+		memberCardList.get(0).setStatus(MemberCardConstatns.Status.STATUS1.getStatus());
+		memberCardList.get(0).setCardToken(token);
+		memberCardService.update(memberCardList.get(0));
+		log.info("unspay bind successful");
 	}
 
 	/**
@@ -187,13 +201,16 @@ public class PayResultServiceImpl implements PayResultService{
 		//代理分润=总费率减去支付平台费率乘以代理等级结算费率
 		AgentAccount agentAccount=AgentAccountMapper.selectByAgentId(parent.getAgentId());
 		double repayShareRate=agentAccount.getRepayShareRate();
-		if(!StringUtils.isEmpty(parent.getParentId())&&memberInfo.getAgentId().longValue()!=AgentId){//非直属代理
+		//非直属代理
+		if(!StringUtils.isEmpty(parent.getParentId())&&memberInfo.getAgentId().longValue()!=AgentId){
 			repayShareRate=agentAccount.getRepayShareRate().doubleValue()-lastAgentProfitRate;
-			memberProfitTotal=0;//非直属代理不承担会员分润
+			//非直属代理不承担会员分润
+			memberProfitTotal=0;
 		}
 		//会员还款代理分润比例乘以总金额，再乘以代理分润比例，最后减去会员总分润
 		double agentProfit=MathUtils.multiply(MathUtils.multiply(orderInfo.getOrderAmount(),systemSetting.MEMBER_REPAY_AGENT_PROFIT_TOTAL_RATE()),repayShareRate);
-		agentProfit=MathUtils.subtract(agentProfit,memberProfitTotal)<0?0:MathUtils.subtract(agentProfit,memberProfitTotal);//直属代理承担会员分润，如果不是直属代理，会员分润为0
+		//直属代理承担会员分润，如果不是直属代理，会员分润为0
+		agentProfit=MathUtils.subtract(agentProfit,memberProfitTotal)<0?0:MathUtils.subtract(agentProfit,memberProfitTotal);
 		agentProfitTotal=MathUtils.add(agentProfitTotal,agentProfit);
 		agentProfitService.add(new AgentProfit(parent.getAgentId(),memberInfo.getMemberId(),orderInfo.getOrderId(),orderInfo.getTradeNo(),agentAccount.getRepayShareRate() ,orderInfo.getOrderAmount(), agentProfit,AgentProfitConstants.Type.RepayTaskProfit.getType()));
 		//逻辑结束，递归调用

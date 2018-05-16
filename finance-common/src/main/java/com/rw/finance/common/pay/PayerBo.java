@@ -20,24 +20,24 @@ public class PayerBo {
 		/**
 		 * 支付者信息
 		 * @param payerIdNo
-		 * @param payerRealName
+		 * @param payerrealName
 		 */
-		public UserInfo(String payerIdNo,String payerRealName){
+		public UserInfo(String payerIdNo,String payerrealName){
 			this.payerIdNo=payerIdNo;
-			this.payerRealName=payerRealName;
+			this.payerrealName=payerrealName;
 		}
 		/**
 		 * 支付者和收款者信息
 		 * @param payerIdNo
-		 * @param payerRealName
+		 * @param payerrealName
 		 * @param payeeIdNo
-		 * @param payeeRealName
+		 * @param payeerealName
 		 */
-		public UserInfo(String payerIdNo,String payerRealName,String payeeIdNo,String payeeRealName){
+		public UserInfo(String payerIdNo,String payerrealName,String payeeIdNo,String payeerealName){
 			this.payerIdNo=payerIdNo;
-			this.payerRealName=payerRealName;
+			this.payerrealName=payerrealName;
 			this.payeeIdNo=payeeIdNo;
-			this.payeeRealName=payeeRealName;
+			this.payeerealName=payeerealName;
 		}
 		/**
 		 * 支付者证号码
@@ -46,7 +46,7 @@ public class PayerBo {
 		/**
 		 * 支付者真实姓名
 		 */
-		private String payerRealName;
+		private String payerrealName;
 		/**
 		 * 收款者证件ID
 		 */
@@ -54,18 +54,18 @@ public class PayerBo {
 		/**
 		 * 收款者真实姓名
 		 */
-		private String payeeRealName;
+		private String payeerealName;
 		public String getPayerIdNo() {
 			return payerIdNo;
 		}
 		public void setPayerIdNo(String payerIdNo) {
 			this.payerIdNo = payerIdNo;
 		}
-		public String getPayerRealName() {
-			return payerRealName;
+		public String getPayerrealName() {
+			return payerrealName;
 		}
-		public void setPayerRealName(String payerRealName) {
-			this.payerRealName = payerRealName;
+		public void setPayerrealName(String payerrealName) {
+			this.payerrealName = payerrealName;
 		}
 		public String getPayeeIdNo() {
 			return payeeIdNo;
@@ -73,11 +73,11 @@ public class PayerBo {
 		public void setPayeeIdNo(String payeeIdNo) {
 			this.payeeIdNo = payeeIdNo;
 		}
-		public String getPayeeRealName() {
-			return payeeRealName;
+		public String getPayeerealName() {
+			return payeerealName;
 		}
-		public void setPayeeRealName(String payeeRealName) {
-			this.payeeRealName = payeeRealName;
+		public void setPayeerealName(String payeerealName) {
+			this.payeerealName = payeerealName;
 		}
 	}
 	/**

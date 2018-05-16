@@ -63,7 +63,7 @@ public class EynonBase {
         info.put("iss_ins_name", cardInfo.getPayerBankName());
         info.put("certifTp", "01");
         info.put("certify_id",cardInfo.getPayerCardNo());
-        info.put("customerNm",userInfo.getPayerRealName());
+        info.put("customerNm",userInfo.getPayerrealName());
         info.put("phoneNo",cardInfo.getPayerCardMobile());
         info.put("smsCode", code);
         info.put("cvv2", cardInfo.getPayerCardCvv2());

@@ -42,12 +42,12 @@ public class MemberProfitController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByMemberidAndLevel")
-	public Result<Object> listByMemberidAndLevel(@RequestAttribute(value="memberid"  )long memberid,
+	public Result<Object> listByMemberidAndLevel(@RequestAttribute(value="memberid")long memberid,
 			@RequestParam(value="level")int level,
 			@RequestParam(value="page",required=false,defaultValue="0")int page,
 			@RequestParam(value="size",required=false,defaultValue="100")int size){
 		List<MemberProfit> memberProfits=memberProfitService.listByMemberidAndLevel(memberid, level,page,size);
-		return new Result<Object>(200,null,memberProfits);
+		return new Result<>(200,null,memberProfits);
 	}
 	/**
 	 * 获取会员收益列表
@@ -56,11 +56,11 @@ public class MemberProfitController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByMemberid")
-	public Result<Object> listByMemberid(@RequestAttribute(value="memberid"  )long memberid,
+	public Result<Object> listByMemberid(@RequestAttribute(value="memberid")long memberid,
 			@RequestParam(value="page",required=false,defaultValue="0")int page,
 			@RequestParam(value="size",required=false,defaultValue="100")int size){
 		List<MemberProfit> memberProfits=memberProfitService.listByMemberid(memberid,page,size);
-		return new Result<Object>(200,null,memberProfits);
+		return new Result<>(200,null,memberProfits);
 	}
 	/**
 	 * 分组统计收益
@@ -69,7 +69,7 @@ public class MemberProfitController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/countByMemberidGroupLevel")
-	public Result<Object> countByMemberidGroupLevel(@RequestAttribute(value="memberid"  )long memberid){
+	public Result<Object> countByMemberidGroupLevel(@RequestAttribute(value="memberid")long memberid){
 		List<Object[]> lists=memberProfitService.countByMemberidGroupLevel(memberid);
 		MemberProfitVo.MemberProfitCountVo vo=new MemberProfitVo().new MemberProfitCountVo();
 		Calendar calendar=Calendar.getInstance();
@@ -92,7 +92,7 @@ public class MemberProfitController {
 			vo.getProfitLevels().add(profitLevel);
 			vo.setTotalProfit(MathUtils.add(StringUtils.isEmpty(vo.getTotalProfit())?0:vo.getTotalProfit(),levelProfit));
 		}
-		return new Result<Object>(200,null,vo);
+		return new Result<>(200,null,vo);
 	}
 	
 }

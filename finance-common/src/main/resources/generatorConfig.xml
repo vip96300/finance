@@ -60,10 +60,10 @@
         <table tableName="bank_info" domainObjectName="BankInfo"><property name="useActualColumnNames" value="false" /></table>
         <table tableName="log_info" domainObjectName="LogInfo"><property name="useActualColumnNames" value="false" /></table>
         <table tableName="login_info" domainObjectName="LoginInfo"><property name="useActualColumnNames" value="false" /></table>
-        <table tableName="member_account" domainObjectName="MemberAccount"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="member_account" domainObjectName="MemberAccount"><property name="useActualColumnNames" value="false" /></table>-->
         <table tableName="member_card" domainObjectName="MemberCard"><property name="useActualColumnNames" value="false" /></table>
-        <table tableName="member_info" domainObjectName="MemberInfo"><property name="useActualColumnNames" value="false" /></table>-->
-        <table tableName="member_level" domainObjectName="MemberLevel"><property name="useActualColumnNames" value="false" /></table>
+        <table tableName="member_info" domainObjectName="MemberInfo"><property name="useActualColumnNames" value="false" /></table>
+        <!--<table tableName="member_level" domainObjectName="MemberLevel"><property name="useActualColumnNames" value="false" /></table>-->
         <!--<table tableName="member_profit" domainObjectName="MemberProfit"><property name="useActualColumnNames" value="false" /></table>
         <table tableName="order_count" domainObjectName="OrderCount"><property name="useActualColumnNames" value="false" /></table>
         <table tableName="order_info" domainObjectName="OrderInfo"><property name="useActualColumnNames" value="false" /></table>

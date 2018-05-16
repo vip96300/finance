@@ -63,4 +63,12 @@ public interface MemberCardService {
 	 * @param cardid
 	 */
 	void delByMemberidAndCardid(long memberid, long cardid);
+
+	/**
+	 * @See PayResultService.unspayH5BindBack独享
+	 * @param memberId
+	 * @param cardNo 银行卡尾号4位
+	 * @return
+	 */
+	List<MemberCard> listByMemberIdAndCardNoLike(long memberId,String cardNo);
 }

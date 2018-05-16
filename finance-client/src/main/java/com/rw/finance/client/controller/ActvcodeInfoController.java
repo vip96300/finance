@@ -43,6 +43,6 @@ public class ActvcodeInfoController {
             return new Result<>(501,"会员已试用或者已激活",null);
         }
         actvcodeInfoService.testActive(memberid);
-        return new Result<Object>(200,null,null);
+        return new Result<>(200,null,null);
     }
 }

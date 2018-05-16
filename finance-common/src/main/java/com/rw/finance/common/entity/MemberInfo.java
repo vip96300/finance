@@ -1,6 +1,5 @@
 package com.rw.finance.common.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rw.finance.common.constants.Constants;
 import com.rw.finance.common.constants.MemberInfoConstants;
 import com.rw.finance.common.utils.DateUtils;
@@ -10,11 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MemberInfo implements Serializable {
-
     public MemberInfo(){}
 
-    public MemberInfo(String RealName,String telephone,String password,String payPwd,String registerIp){
-        this.RealName=RealName;
+    public MemberInfo(String realName,String telephone,String password,String payPwd,String registerIp){
+        this.realName=realName;
         this.telephone=telephone;
         this.password= Md5Util.md5(password);
         this.payPwd=payPwd;
@@ -29,9 +27,9 @@ public class MemberInfo implements Serializable {
     /**
      * 实名认证参数传入
      */
-    public void isReal(String RealName,String IdNumber,String idPath,String idobverse,String idreverse,String realcardpath){
-        this.RealName=RealName;
-        this.IdNumber=IdNumber;
+    public void isReal(String realName,String idNumber,String idPath,String idobverse,String idreverse,String realcardpath){
+        this.realName=realName;
+        this.idNumber=idNumber;
         this.idPath=idPath;
         this.idObverse=idobverse;
         this.idReverse=idreverse;
@@ -42,24 +40,31 @@ public class MemberInfo implements Serializable {
 
     private Long memberId;
 
+    /**
+     * 三方通道分配的唯一编号
+     *
+     * @mbg.generated
+     */
+    private String memberToken;
+
     private String activeTime;
 
-    private Long AgentId;
+    private Long agentId;
 
     private String headPath;
 
-    private String IdNumber;
-    @JsonIgnore
+    private String idNumber;
+
     private String idObverse;
-    @JsonIgnore
+
     private String idPath;
-    @JsonIgnore
+
     private String idReverse;
 
     private Integer idType;
 
     private Integer isReal;
-    @JsonIgnore
+
     private String isRealTime;
 
     private String lastLoginTime;
@@ -68,13 +73,13 @@ public class MemberInfo implements Serializable {
 
     private String nickName;
 
-    private Long ParentId;
-    @JsonIgnore
+    private Long parentId;
+
     private String password;
-    @JsonIgnore
+
     private String payPwd;
 
-    private String RealName;
+    private String realName;
 
     private String registerIp;
 
@@ -88,8 +93,6 @@ public class MemberInfo implements Serializable {
 
     private String levelTime;
 
-    public String agentName;//代理名称
-
     private static final long serialVersionUID = 1L;
 
     public Long getMemberId() {
@@ -98,6 +101,14 @@ public class MemberInfo implements Serializable {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    public String getMemberToken() {
+        return memberToken;
+    }
+
+    public void setMemberToken(String memberToken) {
+        this.memberToken = memberToken;
     }
 
     public String getActiveTime() {
@@ -109,11 +120,11 @@ public class MemberInfo implements Serializable {
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
-    public void setAgentId(Long AgentId) {
-        this.AgentId = AgentId;
+    public void setAgentId(Long agentId) {
+        this.agentId = agentId;
     }
 
     public String getHeadPath() {
@@ -125,11 +136,11 @@ public class MemberInfo implements Serializable {
     }
 
     public String getIdNumber() {
-        return IdNumber;
+        return idNumber;
     }
 
-    public void setIdNumber(String IdNumber) {
-        this.IdNumber = IdNumber;
+    public void setidNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public String getIdObverse() {
@@ -205,11 +216,11 @@ public class MemberInfo implements Serializable {
     }
 
     public Long getParentId() {
-        return ParentId;
+        return parentId;
     }
 
-    public void setParentId(Long ParentId) {
-        this.ParentId = ParentId;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getPassword() {
@@ -229,11 +240,11 @@ public class MemberInfo implements Serializable {
     }
 
     public String getRealName() {
-        return RealName;
+        return realName;
     }
 
-    public void setRealName(String RealName) {
-        this.RealName = RealName;
+    public void setrealName(String realName) {
+        this.realName = realName;
     }
 
     public String getRegisterIp() {
@@ -284,14 +295,6 @@ public class MemberInfo implements Serializable {
         this.levelTime = levelTime;
     }
 
-    public String getAgentName() {
-        return agentName;
-    }
-
-    public void setAgentName(String agentName) {
-        this.agentName = agentName;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -299,10 +302,11 @@ public class MemberInfo implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", memberId=").append(memberId);
+        sb.append(", memberToken=").append(memberToken);
         sb.append(", activeTime=").append(activeTime);
-        sb.append(", AgentId=").append(AgentId);
+        sb.append(", agentId=").append(agentId);
         sb.append(", headPath=").append(headPath);
-        sb.append(", IdNumber=").append(IdNumber);
+        sb.append(", idNumber=").append(idNumber);
         sb.append(", idObverse=").append(idObverse);
         sb.append(", idPath=").append(idPath);
         sb.append(", idReverse=").append(idReverse);
@@ -312,10 +316,10 @@ public class MemberInfo implements Serializable {
         sb.append(", lastLoginTime=").append(lastLoginTime);
         sb.append(", level=").append(level);
         sb.append(", nickName=").append(nickName);
-        sb.append(", ParentId=").append(ParentId);
+        sb.append(", parentId=").append(parentId);
         sb.append(", password=").append(password);
         sb.append(", payPwd=").append(payPwd);
-        sb.append(", RealName=").append(RealName);
+        sb.append(", realName=").append(realName);
         sb.append(", registerIp=").append(registerIp);
         sb.append(", registerTime=").append(registerTime);
         sb.append(", status=").append(status);
@@ -339,6 +343,7 @@ public class MemberInfo implements Serializable {
         }
         MemberInfo other = (MemberInfo) that;
         return (this.getMemberId() == null ? other.getMemberId() == null : this.getMemberId().equals(other.getMemberId()))
+            && (this.getMemberToken() == null ? other.getMemberToken() == null : this.getMemberToken().equals(other.getMemberToken()))
             && (this.getActiveTime() == null ? other.getActiveTime() == null : this.getActiveTime().equals(other.getActiveTime()))
             && (this.getAgentId() == null ? other.getAgentId() == null : this.getAgentId().equals(other.getAgentId()))
             && (this.getHeadPath() == null ? other.getHeadPath() == null : this.getHeadPath().equals(other.getHeadPath()))
@@ -369,6 +374,7 @@ public class MemberInfo implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getMemberId() == null) ? 0 : getMemberId().hashCode());
+        result = prime * result + ((getMemberToken() == null) ? 0 : getMemberToken().hashCode());
         result = prime * result + ((getActiveTime() == null) ? 0 : getActiveTime().hashCode());
         result = prime * result + ((getAgentId() == null) ? 0 : getAgentId().hashCode());
         result = prime * result + ((getHeadPath() == null) ? 0 : getHeadPath().hashCode());

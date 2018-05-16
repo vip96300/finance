@@ -61,20 +61,20 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/add")
-	public Result<Object> add(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="bankid"  )long bankid,
-			@RequestParam(value="cardno"  )String cardno,
-			@RequestParam(value="mobile"  )String mobile){
+	public Result<Object> add(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="bankid")long bankid,
+			@RequestParam(value="cardno")String cardno,
+			@RequestParam(value="mobile")String mobile){
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
-		if(memberInfo.getIsReal().intValue()==0){//未实名不可添加银行卡
-			return new Result<Object>(500,"请先实名认证",null);
+		if(memberInfo.getIsReal().intValue()==0){
+			return new Result<>(500,"请先实名认证",null);
 		}
 		BankInfo bankInfo=bankInfoService.getByBankid(bankid);
 		if(StringUtils.isEmpty(bankInfo)){
-			return new Result<Object>(501,"银行信息未找到或暂不支持",null);
+			return new Result<>(501,"银行信息未找到或暂不支持",null);
 		}
 		if(memberCardService.isExsit(cardno)){
-			return new Result<Object>(502,"银行卡片已存在",null);
+			return new Result<>(502,"银行卡片已存在",null);
 		}
 		MemberCard memberCard =new MemberCard(memberid,memberInfo.getIdNumber(),bankInfo.getBankId(),memberInfo.getRealName(),cardno,mobile,bankInfo.getBankCode(),
 				bankInfo.getBankName(),bankInfo.getAbbreviation(),bankInfo.getBankLogo(),bankInfo.getCardColor(),bankInfo.getBankExtra());
@@ -82,11 +82,11 @@ public class MemberCardController {
 		PayResult payResult=new PayerFactory().DefaultPayer().auth(new PayerBo().new UserInfo(memberInfo.getIdNumber(),memberInfo.getRealName()),
 				new PayerBo().new CardInfo(bankInfo.getBankName(),memberCard.getProvince(),memberCard.getCity(),memberCard.getAbbreviation(),cardno,mobile,"", ""),
 				new PayerBo().new OrderInfo(TradeNo, "", 1,0,new PayerFactory().DefaultPayer().getBackUrl(),""));
-		if(!payResult.getSuccess()){//储蓄卡鉴权失败
-			return new Result<Object>(505,"储蓄卡认证失败",null);
+		if(!payResult.getSuccess()){
+			return new Result<>(505,"储蓄卡认证失败",null);
 		}
 		memberCardService.add(memberCard);
-		return new Result<Object>(200, null, null);
+		return new Result<>(200, null, null);
 	}
 
 	/**
@@ -104,24 +104,24 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/auth")
-	public Result<Object> auth(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="bankid"  )long bankid,
-			@RequestParam(value="cardno"  )String cardno,
-			@RequestParam(value="expirydate"  )String expirydate,
-			@RequestParam(value="authcode"  )String authcode,
-			@RequestParam(value="billdate"  )String billdate,
-			@RequestParam(value="repaydate"  )String repaydate,
-			@RequestParam(value="mobile"  )String mobile){
+	public Result<Object> auth(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="bankid")long bankid,
+			@RequestParam(value="cardno")String cardno,
+			@RequestParam(value="expirydate")String expirydate,
+			@RequestParam(value="authcode")String authcode,
+			@RequestParam(value="billdate")String billdate,
+			@RequestParam(value="repaydate")String repaydate,
+			@RequestParam(value="mobile")String mobile){
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
-		if(memberInfo.getIsReal().intValue()==0){//未实名不可添加银行卡
-			return new Result<Object>(500,"请先实名认证",null);
+		if(memberInfo.getIsReal().intValue()==0){
+			return new Result<>(500,"请先实名认证",null);
 		}
 		if(memberCardService.isExsit(cardno)){
-			return new Result<Object>(501,"银行卡片已存在",null);
+			return new Result<>(501,"银行卡片已存在",null);
 		}
 		BankInfo bankInfo=bankInfoService.getByBankid(bankid);
 		if(StringUtils.isEmpty(bankInfo)){
-			return new Result<Object>(502,"银行信息未找到",null);
+			return new Result<>(502,"银行信息未找到",null);
 		}
 		//支付鉴权
 		MemberCard memberCard =new MemberCard(memberid,memberInfo.getIdNumber(),bankInfo.getBankId(),
@@ -133,13 +133,13 @@ public class MemberCardController {
 		if(payResult.getSuccess()){
 			memberCard=memberCardService.add1(memberCard);
 		}else {
-			return new Result<Object>(505, payResult.getDetails(), null);
+			return new Result<>(505, payResult.getDetails(), null);
 		}
 		orderInfoService.add(new com.rw.finance.common.entity.OrderInfo(memberInfo.getMemberId(),memberInfo.getRealName(), TradeNo,
 				MemberCardConstatns.AUTH_PAY_AMOUNT, MemberCardConstatns.AUTH_PAY_AMOUNT,payChannelService.getByIsdef().getChannelId(),payResult.getPayTradeNo(),
 				OrderInfoConstants.Type.MemberCardOrder.getType(), payResult.getDetails(),new Gson().toJson(new MemberCardOrder(memberCard.getCardId()))));
 		MemberCardVo.AuthVo vo=new MemberCardVo().new AuthVo(payResult.getTradeNo(),memberCard.getCardId(),payResult.getIsNeedSms());
-		return new Result<Object>(200,null,vo);
+		return new Result<>(200,null,vo);
 	}
 	/**
 	 * 将储蓄卡设为默认，只能是储蓄卡
@@ -149,10 +149,10 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/isdef")
-	public Result<Object> isdef(@RequestAttribute(value="memberid"  )long memberid,
-								@RequestParam(value="cardid"  )long cardid){
+	public Result<Object> isdef(@RequestAttribute(value="memberid")long memberid,
+								@RequestParam(value="cardid")long cardid){
 		memberCardService.isdef(memberid, cardid);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 支付重发验证码
@@ -162,9 +162,9 @@ public class MemberCardController {
 	public Result<Object> reSendSms(@RequestParam(value="TradeNo")String TradeNo){
 		PayResult payResult=new PayerFactory().DefaultPayer().reSendSms(new PayerBo().new OrderInfo(TradeNo,"", 0,0,new PayerFactory().DefaultPayer().getBackUrl(),""));
 		if(!payResult.getSuccess()){
-			return new Result<Object>(501,payResult.getDetails(),null);
+			return new Result<>(501,payResult.getDetails(),null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	
 	/**
@@ -177,14 +177,14 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/confirm")
-	public Result<Object> confirm(@RequestAttribute(value="memberid"  )long memberid,
-		@RequestParam(value="tn"  )String tn,
-		@RequestParam(value="code"  )String code){
+	public Result<Object> confirm(@RequestAttribute(value="memberid")long memberid,
+		@RequestParam(value="tn")String tn,
+		@RequestParam(value="code")String code){
 		PayResult payResult=this.confirm(tn, code);
 		if(!payResult.getSuccess()){
-			return new Result<Object>(505,payResult.getDetails(),null);
+			return new Result<>(505,payResult.getDetails(),null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 申请支付
@@ -213,9 +213,9 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByMemberidAndType")
-	public Result<Object> listByMemberidAndType(@RequestAttribute(value="memberid"  )long memberid){
+	public Result<Object> listByMemberidAndType(@RequestAttribute(value="memberid")long memberid){
 		List<MemberCard> memberCards =this.memberCardService.listByMemberidAndType(memberid,MemberCardConstatns.Type.TYPE1.getType());
-		return new Result<Object>(200,null, memberCards);
+		return new Result<>(200,null, memberCards);
 	}
 	/**
 	 * 获取用户袋记卡列表
@@ -224,9 +224,9 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByMemberidAndType1")
-	public Result<Object> listByMemberidAndType1(@RequestAttribute(value="memberid"  )long memberid){
+	public Result<Object> listByMemberidAndType1(@RequestAttribute(value="memberid")long memberid){
 		List<MemberCard> memberCards =this.memberCardService.listByMemberidAndType(memberid,MemberCardConstatns.Type.TYPE2.getType());
-		return new Result<Object>(200,null,  memberCards);
+		return new Result<>(200,null,  memberCards);
 	}
 	
 	/**
@@ -239,18 +239,18 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/updByMemberidAndCardid")
-	public Result<Object> updByMemberidAndCardid(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="cardid"  )long cardid,
-			@RequestParam(value="billdate"  )String billdate,
-			@RequestParam(value="repaydate"  )String repaydate){
+	public Result<Object> updByMemberidAndCardid(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="cardid")long cardid,
+			@RequestParam(value="billdate")String billdate,
+			@RequestParam(value="repaydate")String repaydate){
 			MemberCard memberCard=memberCardService.getByMemberidAndCardid(memberid, cardid);
 			if(StringUtils.isEmpty(memberCard)){
-				return new Result<Object>(501,"银行卡片不存在",null);
+				return new Result<>(501,"银行卡片不存在",null);
 			}
 			memberCard.setBillDate(billdate);
 			memberCard.setRepayDate(repaydate);
 			memberCardService.update(memberCard);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 删除卡片
@@ -260,9 +260,9 @@ public class MemberCardController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/delByMemberidAndCardid")
-	public Result<Object> delByMemberidAndCardid(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="cardid"  )long cardid){
+	public Result<Object> delByMemberidAndCardid(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="cardid")long cardid){
 		memberCardService.delByMemberidAndCardid(memberid, cardid);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 }

@@ -41,7 +41,7 @@ public class MemberLevelController {
 	public Result<Object> getByLevelAndChannelId(@RequestAttribute(value="memberid")long memberid){
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
 		MemberLevel memberLevel=memberLevelService.getByLevelAndChannelid(memberInfo.getLevel().intValue(),payChannelService.getByIsdef().getChannelId());
-		return new Result<Object>(200,null,memberLevel);
+		return new Result<>(200,null,memberLevel);
 	}
 	
 }

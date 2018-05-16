@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.finance.client.annotation.Member;
+import com.rw.finance.client.service.MemberInfoService;
+import com.rw.finance.common.constants.Constants;
+import com.rw.finance.common.entity.MemberInfo;
 import com.rw.finance.common.entity.RepayTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,9 @@ public class RepayTaskController {
 
 	@Autowired
 	private RepayTaskService repayTaskService;
+
+	@Autowired
+	private MemberInfoService memberInfoService;
 	
 	/**
 	 * 生成还款计划
@@ -40,12 +46,16 @@ public class RepayTaskController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/generator")
-	public Result<Object> generator(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="cardid"  )long cardid,
-			@RequestParam(value="dates"  )String dates,
-			@RequestParam(value="money"  )double money){
+	public Result<Object> generator(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="cardid")long cardid,
+			@RequestParam(value="dates")String dates,
+			@RequestParam(value="money")double money){
+		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
+		if(memberInfo.getIsReal().intValue()!= Constants.YN.Y.getValue()){
+			return new Result<>(501,"请先实名认证",null);
+		}
 		Map<String,Object> repayPlans=repayTaskService.generator(memberid,cardid, dates, money);
-		return new Result<Object>(200,null,repayPlans);
+		return new Result<>(200,null,repayPlans);
 	}
 	/**
 	 * 获取任务列表
@@ -55,13 +65,13 @@ public class RepayTaskController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByPlanid")
-	public Result<Object> listByPlanid(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="planid"  )long planid){
+	public Result<Object> listByPlanid(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="planid")long planid){
 		List<RepayTask> repayTasks=repayTaskService.listByMemberidAndPlanid(memberid, planid);
 		repayTasks.forEach(repayTask->{
 			this.persist(repayTask);
 		});
-		return new Result<Object>(200,null,repayTasks);
+		return new Result<>(200,null,repayTasks);
 	}
 	/**
 	 * 反射保留double后两位

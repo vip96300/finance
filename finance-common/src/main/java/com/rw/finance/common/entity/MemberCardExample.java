@@ -187,6 +187,76 @@ public class MemberCardExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andCardTokenIsNull() {
+            addCriterion("card_token is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenIsNotNull() {
+            addCriterion("card_token is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenEqualTo(String value) {
+            addCriterion("card_token =", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenNotEqualTo(String value) {
+            addCriterion("card_token <>", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenGreaterThan(String value) {
+            addCriterion("card_token >", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("card_token >=", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenLessThan(String value) {
+            addCriterion("card_token <", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenLessThanOrEqualTo(String value) {
+            addCriterion("card_token <=", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenLike(String value) {
+            addCriterion("card_token like", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenNotLike(String value) {
+            addCriterion("card_token not like", value, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenIn(List<String> values) {
+            addCriterion("card_token in", values, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenNotIn(List<String> values) {
+            addCriterion("card_token not in", values, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenBetween(String value1, String value2) {
+            addCriterion("card_token between", value1, value2, "cardToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardTokenNotBetween(String value1, String value2) {
+            addCriterion("card_token not between", value1, value2, "cardToken");
+            return (Criteria) this;
+        }
+
         public Criteria andAbbreviationIsNull() {
             addCriterion("abbreviation is null");
             return (Criteria) this;
@@ -538,62 +608,62 @@ public class MemberCardExample implements Serializable {
         }
 
         public Criteria andBankNameEqualTo(String value) {
-            addCriterion("bank_name =", value, "BankName");
+            addCriterion("bank_name =", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameNotEqualTo(String value) {
-            addCriterion("bank_name <>", value, "BankName");
+            addCriterion("bank_name <>", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameGreaterThan(String value) {
-            addCriterion("bank_name >", value, "BankName");
+            addCriterion("bank_name >", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameGreaterThanOrEqualTo(String value) {
-            addCriterion("bank_name >=", value, "BankName");
+            addCriterion("bank_name >=", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameLessThan(String value) {
-            addCriterion("bank_name <", value, "BankName");
+            addCriterion("bank_name <", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameLessThanOrEqualTo(String value) {
-            addCriterion("bank_name <=", value, "BankName");
+            addCriterion("bank_name <=", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameLike(String value) {
-            addCriterion("bank_name like", value, "BankName");
+            addCriterion("bank_name like", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameNotLike(String value) {
-            addCriterion("bank_name not like", value, "BankName");
+            addCriterion("bank_name not like", value, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameIn(List<String> values) {
-            addCriterion("bank_name in", values, "BankName");
+            addCriterion("bank_name in", values, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameNotIn(List<String> values) {
-            addCriterion("bank_name not in", values, "BankName");
+            addCriterion("bank_name not in", values, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameBetween(String value1, String value2) {
-            addCriterion("bank_name between", value1, value2, "BankName");
+            addCriterion("bank_name between", value1, value2, "bankName");
             return (Criteria) this;
         }
 
         public Criteria andBankNameNotBetween(String value1, String value2) {
-            addCriterion("bank_name not between", value1, value2, "BankName");
+            addCriterion("bank_name not between", value1, value2, "bankName");
             return (Criteria) this;
         }
 
@@ -1087,73 +1157,73 @@ public class MemberCardExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberIsNull() {
+        public Criteria andidNumberIsNull() {
             addCriterion("id_number is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberIsNotNull() {
+        public Criteria andidNumberIsNotNull() {
             addCriterion("id_number is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberEqualTo(String value) {
-            addCriterion("id_number =", value, "IdNumber");
+        public Criteria andidNumberEqualTo(String value) {
+            addCriterion("id_number =", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberNotEqualTo(String value) {
-            addCriterion("id_number <>", value, "IdNumber");
+        public Criteria andidNumberNotEqualTo(String value) {
+            addCriterion("id_number <>", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberGreaterThan(String value) {
-            addCriterion("id_number >", value, "IdNumber");
+        public Criteria andidNumberGreaterThan(String value) {
+            addCriterion("id_number >", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberGreaterThanOrEqualTo(String value) {
-            addCriterion("id_number >=", value, "IdNumber");
+        public Criteria andidNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("id_number >=", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberLessThan(String value) {
-            addCriterion("id_number <", value, "IdNumber");
+        public Criteria andidNumberLessThan(String value) {
+            addCriterion("id_number <", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberLessThanOrEqualTo(String value) {
-            addCriterion("id_number <=", value, "IdNumber");
+        public Criteria andidNumberLessThanOrEqualTo(String value) {
+            addCriterion("id_number <=", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberLike(String value) {
-            addCriterion("id_number like", value, "IdNumber");
+        public Criteria andidNumberLike(String value) {
+            addCriterion("id_number like", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberNotLike(String value) {
-            addCriterion("id_number not like", value, "IdNumber");
+        public Criteria andidNumberNotLike(String value) {
+            addCriterion("id_number not like", value, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberIn(List<String> values) {
-            addCriterion("id_number in", values, "IdNumber");
+        public Criteria andidNumberIn(List<String> values) {
+            addCriterion("id_number in", values, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberNotIn(List<String> values) {
-            addCriterion("id_number not in", values, "IdNumber");
+        public Criteria andidNumberNotIn(List<String> values) {
+            addCriterion("id_number not in", values, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberBetween(String value1, String value2) {
-            addCriterion("id_number between", value1, value2, "IdNumber");
+        public Criteria andidNumberBetween(String value1, String value2) {
+            addCriterion("id_number between", value1, value2, "idNumber");
             return (Criteria) this;
         }
 
-        public Criteria andIdNumberNotBetween(String value1, String value2) {
-            addCriterion("id_number not between", value1, value2, "IdNumber");
+        public Criteria andidNumberNotBetween(String value1, String value2) {
+            addCriterion("id_number not between", value1, value2, "idNumber");
             return (Criteria) this;
         }
 
@@ -1477,73 +1547,73 @@ public class MemberCardExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andRealNameIsNull() {
+        public Criteria andrealNameIsNull() {
             addCriterion("real_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameIsNotNull() {
+        public Criteria andrealNameIsNotNull() {
             addCriterion("real_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameEqualTo(String value) {
-            addCriterion("real_name =", value, "RealName");
+        public Criteria andrealNameEqualTo(String value) {
+            addCriterion("real_name =", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameNotEqualTo(String value) {
-            addCriterion("real_name <>", value, "RealName");
+        public Criteria andrealNameNotEqualTo(String value) {
+            addCriterion("real_name <>", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameGreaterThan(String value) {
-            addCriterion("real_name >", value, "RealName");
+        public Criteria andrealNameGreaterThan(String value) {
+            addCriterion("real_name >", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameGreaterThanOrEqualTo(String value) {
-            addCriterion("real_name >=", value, "RealName");
+        public Criteria andrealNameGreaterThanOrEqualTo(String value) {
+            addCriterion("real_name >=", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameLessThan(String value) {
-            addCriterion("real_name <", value, "RealName");
+        public Criteria andrealNameLessThan(String value) {
+            addCriterion("real_name <", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameLessThanOrEqualTo(String value) {
-            addCriterion("real_name <=", value, "RealName");
+        public Criteria andrealNameLessThanOrEqualTo(String value) {
+            addCriterion("real_name <=", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameLike(String value) {
-            addCriterion("real_name like", value, "RealName");
+        public Criteria andrealNameLike(String value) {
+            addCriterion("real_name like", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameNotLike(String value) {
-            addCriterion("real_name not like", value, "RealName");
+        public Criteria andrealNameNotLike(String value) {
+            addCriterion("real_name not like", value, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameIn(List<String> values) {
-            addCriterion("real_name in", values, "RealName");
+        public Criteria andrealNameIn(List<String> values) {
+            addCriterion("real_name in", values, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameNotIn(List<String> values) {
-            addCriterion("real_name not in", values, "RealName");
+        public Criteria andrealNameNotIn(List<String> values) {
+            addCriterion("real_name not in", values, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameBetween(String value1, String value2) {
-            addCriterion("real_name between", value1, value2, "RealName");
+        public Criteria andrealNameBetween(String value1, String value2) {
+            addCriterion("real_name between", value1, value2, "realName");
             return (Criteria) this;
         }
 
-        public Criteria andRealNameNotBetween(String value1, String value2) {
-            addCriterion("real_name not between", value1, value2, "RealName");
+        public Criteria andrealNameNotBetween(String value1, String value2) {
+            addCriterion("real_name not between", value1, value2, "realName");
             return (Criteria) this;
         }
 

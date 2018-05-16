@@ -3,6 +3,7 @@
 <mapper namespace="com.rw.finance.client.dao.MemberInfoMapper">
   <resultMap id="BaseResultMap" type="com.rw.finance.common.entity.MemberInfo">
     <id column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_token" jdbcType="VARCHAR" property="memberToken" />
     <result column="active_time" jdbcType="VARCHAR" property="activeTime" />
     <result column="agent_id" jdbcType="BIGINT" property="agentId" />
     <result column="head_path" jdbcType="VARCHAR" property="headPath" />
@@ -86,10 +87,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    member_id, active_time, agent_id, head_path, id_number, id_obverse, id_path, id_reverse, 
-    id_type, is_real, is_real_time, last_login_time, level, nick_name, parent_id, password, 
-    pay_pwd, real_name, register_ip, register_time, status, telephone, real_card_path, 
-    level_time
+    member_id, member_token, active_time, agent_id, head_path, id_number, id_obverse, 
+    id_path, id_reverse, id_type, is_real, is_real_time, last_login_time, level, nick_name, 
+    parent_id, password, pay_pwd, real_name, register_ip, register_time, status, telephone, 
+    real_card_path, level_time
   </sql>
   <select id="selectByExample" parameterType="com.rw.finance.common.entity.MemberInfoExample" resultMap="BaseResultMap">
     select
@@ -130,24 +131,24 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.rw.finance.common.entity.MemberInfo">
-    insert into member_info (member_id, active_time, agent_id, 
-      head_path, id_number, id_obverse, 
-      id_path, id_reverse, id_type, 
-      is_real, is_real_time, last_login_time, 
-      level, nick_name, parent_id, 
-      password, pay_pwd, real_name, 
-      register_ip, register_time, status, 
-      telephone, real_card_path, level_time
-      )
-    values (#{memberId,jdbcType=BIGINT}, #{activeTime,jdbcType=VARCHAR}, #{agentId,jdbcType=BIGINT}, 
-      #{headPath,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{idObverse,jdbcType=VARCHAR}, 
-      #{idPath,jdbcType=VARCHAR}, #{idReverse,jdbcType=VARCHAR}, #{idType,jdbcType=INTEGER}, 
-      #{isReal,jdbcType=INTEGER}, #{isRealTime,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
-      #{password,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
-      #{registerIp,jdbcType=VARCHAR}, #{registerTime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{telephone,jdbcType=VARCHAR}, #{realCardPath,jdbcType=VARCHAR}, #{levelTime,jdbcType=VARCHAR}
-      )
+    insert into member_info (member_id, member_token, active_time, 
+      agent_id, head_path, id_number, 
+      id_obverse, id_path, id_reverse, 
+      id_type, is_real, is_real_time, 
+      last_login_time, level, nick_name, 
+      parent_id, password, pay_pwd, 
+      real_name, register_ip, register_time, 
+      status, telephone, real_card_path, 
+      level_time)
+    values (#{memberId,jdbcType=BIGINT}, #{memberToken,jdbcType=VARCHAR}, #{activeTime,jdbcType=VARCHAR}, 
+      #{agentId,jdbcType=BIGINT}, #{headPath,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
+      #{idObverse,jdbcType=VARCHAR}, #{idPath,jdbcType=VARCHAR}, #{idReverse,jdbcType=VARCHAR}, 
+      #{idType,jdbcType=INTEGER}, #{isReal,jdbcType=INTEGER}, #{isRealTime,jdbcType=VARCHAR}, 
+      #{lastLoginTime,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=BIGINT}, #{password,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{registerIp,jdbcType=VARCHAR}, #{registerTime,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{realCardPath,jdbcType=VARCHAR}, 
+      #{levelTime,jdbcType=VARCHAR})
     <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="memberId">
       SELECT  LAST_INSERT_ID()
     </selectKey>
@@ -157,6 +158,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
         member_id,
+      </if>
+      <if test="memberToken != null">
+        member_token,
       </if>
       <if test="activeTime != null">
         active_time,
@@ -231,6 +235,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
         #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberToken != null">
+        #{memberToken,jdbcType=VARCHAR},
       </if>
       <if test="activeTime != null">
         #{activeTime,jdbcType=VARCHAR},
@@ -318,6 +325,9 @@
       <if test="record.memberId != null">
         member_id = #{record.memberId,jdbcType=BIGINT},
       </if>
+      <if test="record.memberToken != null">
+        member_token = #{record.memberToken,jdbcType=VARCHAR},
+      </if>
       <if test="record.activeTime != null">
         active_time = #{record.activeTime,jdbcType=VARCHAR},
       </if>
@@ -395,6 +405,7 @@
   <update id="updateByExample" parameterType="map">
     update member_info
     set member_id = #{record.memberId,jdbcType=BIGINT},
+      member_token = #{record.memberToken,jdbcType=VARCHAR},
       active_time = #{record.activeTime,jdbcType=VARCHAR},
       agent_id = #{record.agentId,jdbcType=BIGINT},
       head_path = #{record.headPath,jdbcType=VARCHAR},
@@ -425,6 +436,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.rw.finance.common.entity.MemberInfo">
     update member_info
     <set>
+      <if test="memberToken != null">
+        member_token = #{memberToken,jdbcType=VARCHAR},
+      </if>
       <if test="activeTime != null">
         active_time = #{activeTime,jdbcType=VARCHAR},
       </if>
@@ -499,7 +513,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rw.finance.common.entity.MemberInfo">
     update member_info
-    set active_time = #{activeTime,jdbcType=VARCHAR},
+    set member_token = #{memberToken,jdbcType=VARCHAR},
+      active_time = #{activeTime,jdbcType=VARCHAR},
       agent_id = #{agentId,jdbcType=BIGINT},
       head_path = #{headPath,jdbcType=VARCHAR},
       id_number = #{idNumber,jdbcType=VARCHAR},

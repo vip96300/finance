@@ -44,12 +44,12 @@ public class RepayPlanController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/all")
-	public Result<Object> listByMemberidAndCardid(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="cardid"  )long cardid,
+	public Result<Object> listByMemberidAndCardid(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="cardid")long cardid,
 			@RequestParam(value="page",required=false,defaultValue="0")int page,
 			@RequestParam(value="size",required=false,defaultValue="100")int size){
 		List<RepayPlan> datas=repayPlanService.listByMemberidAndCardid(memberid, cardid,page,size);
-		return new Result<Object>(200,null,datas);
+		return new Result<>(200,null,datas);
 	}
 	/**
 	 * 根据计划状态获取计划列表
@@ -59,13 +59,13 @@ public class RepayPlanController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/listByMemberidAndCardidAndStatus")
-	public Result<Object> listByMemberidAndCardidAndStatus(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="cardid"  )long cardid,
-			@RequestParam(value="status"  )int status,
+	public Result<Object> listByMemberidAndCardidAndStatus(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="cardid")long cardid,
+			@RequestParam(value="status")int status,
 			@RequestParam(value="page",required=false,defaultValue="0")int page,
 			@RequestParam(value="size",required=false,defaultValue="100")int size){
 		List<RepayPlan> datas=repayPlanService.listByMemberidAndCardidAndStatus(memberid, cardid, status,page,size);
-		return new Result<Object>(200,null,datas);
+		return new Result<>(200,null,datas);
 	}
 	/**
 	 * 执行计划
@@ -73,10 +73,10 @@ public class RepayPlanController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/execute")
-	public Result<Object> execute(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="planid"  )long planid){
+	public Result<Object> execute(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="planid")long planid){
 		repayPlanService.execute(memberid,planid);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 取消计划
@@ -84,9 +84,9 @@ public class RepayPlanController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/cancel")
-	public Result<Object> cancel(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="planid"  )long planid){
+	public Result<Object> cancel(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="planid")long planid){
 		repayPlanService.cancel(memberid,planid);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 }

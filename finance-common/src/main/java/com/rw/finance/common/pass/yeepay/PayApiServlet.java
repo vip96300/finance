@@ -52,7 +52,7 @@ public class PayApiServlet{
 		treeMap.put("cardno", 			cardInfo.getPayerCardNo());//银行卡号
 		treeMap.put("idcardtype", 		"01");//证件类型
 		treeMap.put("idcard", 			userInfo.getPayeeIdNo());//证件号
-		treeMap.put("owner", 			userInfo.getPayerRealName());//持卡人姓名
+		treeMap.put("owner", 			userInfo.getPayerrealName());//持卡人姓名
 		//treeMap.put("version", 			0);//收银台版本
 		//treeMap.put("sign", 			"");//签名信息
 		

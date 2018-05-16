@@ -91,15 +91,15 @@ public class MemberInfoController {
 	 * @return
 	 */
 	@PostMapping(value="/getRegisterCode")
-	public Result<Object> getRegisterCode(@RequestParam(value="telephone"  )String telephone){
+	public Result<Object> getRegisterCode(@RequestParam(value="telephone")String telephone){
 		boolean memberInfoIsExist=memberInfoService.isExistByTelephone(telephone);
 		if(memberInfoIsExist){//用户已存在
-			return new Result<Object>(501,"用户已存在",null);
+			return new Result<>(501,"用户已存在",null);
 		}
 		String code=SmsUtils.smsCodeGenerator();
 		SmsUtils.send(telephone, code);
 		baseCacheService.set(MemberInfoConstants.CacheKey.REGISTER_CODE.getValue(telephone),code,TimeConstants.SMS_CODE_EXPRIE_TIME);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 检查验证码是否正确
@@ -108,27 +108,27 @@ public class MemberInfoController {
 	 * @return
 	 */
 	@PostMapping(value="/checkRegisterCode")
-	public Result<Object> checkRegisterCode(@RequestParam(value="telephone"  )String telephone,
-			@RequestParam(value="code"  )String code){
+	public Result<Object> checkRegisterCode(@RequestParam(value="telephone")String telephone,
+			@RequestParam(value="code")String code){
 		if(!code.equals(baseCacheService.get(MemberInfoConstants.CacheKey.REGISTER_CODE.getValue(telephone), String.class))){
-			return new Result<Object>(501,"短信验证码不正确",null);
+			return new Result<>(501,"短信验证码不正确",null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 注册
 	 * @return
 	 */
 	@PostMapping(value="/register")
-	public Result<Object> register(@RequestParam(value="realname"  )String realName,
-			@RequestParam(value="telephone"  )String telephone,
-			@RequestParam(value="password"  )String password,
-			@RequestParam(value="paypwd"  )String paypwd,
-			@RequestParam(value="refertel",required=false)String refertel,
-			@RequestParam(value="code"  )String code,
-			@RequestParam(value="agentid",required = false,defaultValue = "0")Long agentId,
-			@RequestParam(value="memberid",required = false,defaultValue = "0")Long memberid,
-			HttpServletRequest request){
+	public Result<Object> register(@RequestParam(value="realName")String realName,
+		@RequestParam(value="telephone")String telephone,
+		@RequestParam(value="password")String password,
+		@RequestParam(value="paypwd")String paypwd,
+		@RequestParam(value="refertel",required=false)String refertel,
+		@RequestParam(value="code")String code,
+		@RequestParam(value="agentid",required = false,defaultValue = "0")Long agentId,
+		@RequestParam(value="memberid",required = false,defaultValue = "0")Long memberid,
+		HttpServletRequest request){
 		if(!code.equals(baseCacheService.get(MemberInfoConstants.CacheKey.REGISTER_CODE.getValue(telephone), String.class))){
 			return new Result<>(500,"短信验证码不正确",null);
 		}
@@ -170,15 +170,15 @@ public class MemberInfoController {
 	 * @return
 	 */
 	@PostMapping(value="/getFindPasswordCode")
-	public Result<Object> getFindPasswordCode(@RequestParam(value="telephone"  )String telephone){
+	public Result<Object> getFindPasswordCode(@RequestParam(value="telephone")String telephone){
 		boolean memberInfoIsExist=memberInfoService.isExistByTelephone(telephone);
-		if(!memberInfoIsExist){//用户不存在
-			return new Result<Object>(501,"用户信息不存在",null);
+		if(!memberInfoIsExist){
+			return new Result<>(501,"会员信息不存在",null);
 		}
 		String code=SmsUtils.smsCodeGenerator();
 		SmsUtils.send(telephone, code);
 		baseCacheService.set(MemberInfoConstants.CacheKey.FIND_PASSWORD_CODE.getValue(telephone), code,TimeConstants.SMS_CODE_EXPRIE_TIME);
-		return new Result<Object>(200,null,code);
+		return new Result<>(200,null,code);
 	}
 	/**
 	 * 找回密码
@@ -188,19 +188,19 @@ public class MemberInfoController {
 	 * @return
 	 */
 	@PostMapping(value="/findPassword")
-	public Result<Object> findPassword(@RequestParam(value="telephone"  )String telephone,
-			@RequestParam(value="newPassword"  )String newPassword,
-			@RequestParam(value="code"  )String code){
+	public Result<Object> findPassword(@RequestParam(value="telephone")String telephone,
+			@RequestParam(value="newPassword")String newPassword,
+			@RequestParam(value="code")String code){
 		if(!code.equals(baseCacheService.get(MemberInfoConstants.CacheKey.FIND_PASSWORD_CODE.getValue(telephone),String.class))){
-			return new Result<Object>(501,"短信验证码错误",null);
+			return new Result<>(501,"短信验证码错误",null);
 		}
 		MemberInfo memberInfo =memberInfoService.getByTelephone(telephone);
 		if(StringUtils.isEmpty(memberInfo)){
-			return new Result<Object>(502,"用户信息未找到",null);
+			return new Result<>(502,"用户信息未找到",null);
 		}
 		memberInfo.setPassword(Md5Util.md5(newPassword));
 		memberInfoService.update(memberInfo);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 用户登录
@@ -209,8 +209,8 @@ public class MemberInfoController {
 	 * @return
 	 */
 	@PostMapping(value="/login")
-	public Result<Object> login(@RequestParam(value="telephone"  )String telephone,
-			@RequestParam(value="password"  )String password){
+	public Result<Object> login(@RequestParam(value="telephone")String telephone,
+			@RequestParam(value="password")String password){
 		String jwt=memberInfoService.login(telephone,password);
 		if(StringUtils.isEmpty(jwt)){
 			return new Result<>(501,"用户名或密码错误",null);
@@ -227,9 +227,9 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/updPasswordByMemberidAndPassword")
-	public Result<Object> updPasswordByMemberidAndPassowrd(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="password"  )String password,
-			@RequestParam(value="newPassword"  )String newPassword){
+	public Result<Object> updPasswordByMemberidAndPassowrd(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="password")String password,
+			@RequestParam(value="newPassword")String newPassword){
 		boolean isSuccess=memberInfoService.updPasswordByMemberidAndPassword(memberid, password,newPassword);
 		if(!isSuccess){
 			return new Result<>(501,"操作失败",null);
@@ -246,14 +246,14 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/updPaypwdByMemberidAndPaypwd")
-	public Result<Object> updPaypwdByMemberidAndPaypwd(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="paypwd"  )String paypwd,
-			@RequestParam(value="newPaypwd"  )String newPaypwd){
+	public Result<Object> updPaypwdByMemberidAndPaypwd(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="paypwd")String paypwd,
+			@RequestParam(value="newPaypwd")String newPaypwd){
 		boolean isSuccess=memberInfoService.updPaypwdByMemberidAndPaypwd(memberid,paypwd,newPaypwd);
 		if(!isSuccess){
-			return new Result<Object>(501,"操作失败",null);
+			return new Result<>(501,"操作失败",null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	
 	/**
@@ -263,16 +263,16 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/getFindPaypwdCode")
-	public Result<Object> getFindPaypwdCode(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="telephone"  )String telephone){
+	public Result<Object> getFindPaypwdCode(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="telephone")String telephone){
 		MemberInfo memberInfo =memberInfoService.getByTelephone(telephone);
 		if(StringUtils.isEmpty(memberInfo)){
-			return new Result<Object>(502,"用户信息未找到",null);
+			return new Result<>(502,"用户信息未找到",null);
 		}
 		String code=SmsUtils.smsCodeGenerator();
 		SmsUtils.send(telephone, code);
 		baseCacheService.set("findPaypwd_"+memberid,code,TimeConstants.SMS_CODE_EXPRIE_TIME);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	
 	/**
@@ -284,17 +284,17 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/findPaypwd")
-	public Result<Object> findPaypwd(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="newPaypwd"  )String newPaypwd,
-			@RequestParam(value="code"  )String code){
+	public Result<Object> findPaypwd(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="newPaypwd")String newPaypwd,
+			@RequestParam(value="code")String code){
 		if(!code.equals(baseCacheService.get("findPaypwd_"+memberid,String.class))){
-			return new Result<Object>(501,"短信验证码错误",null);
+			return new Result<>(501,"短信验证码错误",null);
 		}
 		boolean isSuccess=memberInfoService.updPaypwdByMemberid(memberid, newPaypwd);
 		if(!isSuccess){
-			return new Result<Object>(502,"用户信息未找到",null);
+			return new Result<>(502,"用户信息未找到",null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	
 	/**
@@ -304,7 +304,7 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/getByMemberid")
-	public Result<Object> getByMemberid(@RequestAttribute(value="memberid"  )long memberid){
+	public Result<Object> getByMemberid(@RequestAttribute(value="memberid")long memberid){
 		MemberInfo memberInfo =memberInfoService.getByMemberid(memberid);
 		if(!StringUtils.isEmpty(memberInfo.getLevelTime())){
 			if(DateUtils.getTimeByStr(memberInfo.getLevelTime()).getTime()<System.currentTimeMillis()){
@@ -314,7 +314,7 @@ public class MemberInfoController {
 				memberInfo.setLevelTime(null);
 			}
 		}
-		return new Result<Object>(200,null, memberInfo);
+		return new Result<>(200,null, memberInfo);
 	}
 	/**
 	 * 获取旧手机号的验证码
@@ -323,16 +323,16 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/getUpdTelephoneCode")
-	public Result<Object> getUpdTelephoneCode(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="telephone"  )String telephone){
+	public Result<Object> getUpdTelephoneCode(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="telephone")String telephone){
 		MemberInfo memberInfo =memberInfoService.getByMemberidAndTelephone(memberid, telephone);
 		if(StringUtils.isEmpty(memberInfo)){
-			return new Result<Object>(501,"用户信息未找到",null);
+			return new Result<>(501,"用户信息未找到",null);
 		}
 		String code=SmsUtils.smsCodeGenerator();
 		SmsUtils.send(telephone, code);
 		baseCacheService.set(MemberInfoConstants.CacheKey.UPDATE_TELEPHONE_CODE.getValue(memberid),code,TimeConstants.SMS_CODE_EXPRIE_TIME);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 检查旧手机号的验证码
@@ -345,10 +345,10 @@ public class MemberInfoController {
 	public Result<Object> checkUpdTelephoneCode(@RequestAttribute(value="memberid")long memberid,
 			@RequestParam(value="code")String code){
 		if(!code.equals(baseCacheService.get(MemberInfoConstants.CacheKey.UPDATE_TELEPHONE_CODE.getValue(memberid), String.class))){
-			return new Result<Object>(501,"短信验证码不正确",null);
+			return new Result<>(501,"短信验证码不正确",null);
 		}
 		baseCacheService.remove(MemberInfoConstants.CacheKey.UPDATE_TELEPHONE_CODE.getValue(memberid));
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 获取新手机号的验证码
@@ -358,16 +358,16 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/getUpdTelephoneCode1")
-	public Result<Object> getUpdTelephoneCode1(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="newTelephone"  )String newTelephone){
+	public Result<Object> getUpdTelephoneCode1(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="newTelephone")String newTelephone){
 		boolean isExistByTelephone=memberInfoService.isExistByTelephone(newTelephone);
 		if(isExistByTelephone){
-			return new Result<Object>(501,"新手机号已被注册",null);
+			return new Result<>(501,"新手机号已被注册",null);
 		}
 		String code=SmsUtils.smsCodeGenerator();
 		SmsUtils.send(newTelephone, code);
 		baseCacheService.set(MemberInfoConstants.CacheKey.UPDATE_TELEPHONE_CODE_NEW.getValue(memberid),code,TimeConstants.SMS_CODE_EXPRIE_TIME);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 修改手机号
@@ -375,15 +375,15 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/updTelephone")
-	public Result<Object> updTelephone(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="newTelephone"  )String newTelephone,
-			@RequestParam(value="code"  )String code){
+	public Result<Object> updTelephone(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="newTelephone")String newTelephone,
+			@RequestParam(value="code")String code){
 		if(!code.equals(baseCacheService.get(MemberInfoConstants.CacheKey.UPDATE_TELEPHONE_CODE_NEW.getValue(memberid), String.class))){
-			return new Result<Object>(501,"短信验证码不正确",null);
+			return new Result<>(501,"短信验证码不正确",null);
 		}
 		memberInfoService.updTelephoneByMemberid(memberid, newTelephone);
 		baseCacheService.remove(MemberInfoConstants.CacheKey.UPDATE_TELEPHONE_CODE_NEW.getValue(memberid));
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 激活码激活用户
@@ -391,22 +391,22 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/codeActive")
-	public Result<Object> codeActive(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="activecode"  )String activecode){
+	public Result<Object> codeActive(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="activecode")String activecode){
 		ActvcodeInfo actvcodeInfo=actvcodeInfoService.getByActivecode(activecode);
 		if(StringUtils.isEmpty(actvcodeInfo)){
-			return new Result<Object>(501,"激活码不存在",null);
+			return new Result<>(501,"激活码不存在",null);
 		}
 		if(actvcodeInfo.getUseStatus().intValue()!=ActvcodeInfoConstants.UseStatus.STATUS1.getStatus()){
-			return new Result<Object>(502,"激活码无效",null);
+			return new Result<>(502,"激活码无效",null);
 		}
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
 		//未实名认证
 		if(memberInfo.getIsReal().intValue()!= Constants.YN.Y.getValue()){
-			return new Result<Object>(503,"请先实名认证",null);
+			return new Result<>(503,"请先实名认证",null);
 		}
 		actvcodeInfoService.codeActive(memberid, activecode);
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 	/**
 	 * 在线支付激活
@@ -414,21 +414,21 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@GetMapping(value="/payActive")
-	public void payActive(@RequestAttribute(value="memberid"  )long memberid,
-			//@RequestParam(value="bankid"  )long bankid,
-			//@RequestParam(value="cardno"  )String cardno,
-			//@RequestParam(value="expirydate"  )String expirydate,
-			//@RequestParam(value="authcode"  )String authcode,
+	public void payActive(@RequestAttribute(value="memberid")long memberid,
+			//@RequestParam(value="bankid")long bankid,
+			//@RequestParam(value="cardno")String cardno,
+			//@RequestParam(value="expirydate")String expirydate,
+			//@RequestParam(value="authcode")String authcode,
 			//@RequestParam(value="billdate",required=false)String billdate,
 			//@RequestParam(value="repaydate",required=false)String repaydate,
-			//@RequestParam(value="mobile"  )String mobile,
+			//@RequestParam(value="mobile")String mobile,
 			@RequestParam(value="method")String method,
-			@RequestParam(value="level"  )int level,
+			@RequestParam(value="level")int level,
 			@RequestParam(value="beforeCallbackUrl",required=false)String beforeCallbackUrl,
 			HttpServletResponse response){
 		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
 		//BankInfo bankInfo=bankInfoService.getByBankid(bankid);
-		if(memberInfo.getIsReal().intValue()!=1){//未实名认证
+		if(memberInfo.getIsReal().intValue()!= Constants.YN.Y.getValue()){
 			return;
 		}
 		//信用卡
@@ -439,7 +439,7 @@ public class MemberInfoController {
 		//借记卡
 		/*MemberCard memberCard =new MemberCard(memberid, memberInfo.getIdNumber(), bankid, memberInfo.getRealName(), cardno,
 				mobile, bankInfo.getBankcode(), bankInfo.getBankName(), bankInfo.getAbbreviation(), bankInfo.getBanklogo(), bankInfo.getCardcolor());*/
-		//仅限易宝支付使用该对象
+		//仅限易宝支付使用该空对象
 		MemberCard memberCard=new MemberCard();
 		PayResult payResult=actvcodeInfoService.payActive(memberInfo, memberCard, level,method,beforeCallbackUrl);
 		if(!payResult.getSuccess()){
@@ -463,14 +463,14 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/confirmPayActive")
-	public Result<Object> confirmPayActive(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="tradeno"  )String tradeNo,
-			@RequestParam(value="code"  )String code){
+	public Result<Object> confirmPayActive(@RequestAttribute(value="memberid")long memberid,
+			@RequestParam(value="tradeno")String tradeNo,
+			@RequestParam(value="code")String code){
 		PayResult payResult=this.actvcodeInfoService.confirmPayActive(tradeNo, code);
 		if(!payResult.getSuccess()){
-			return new Result<Object>(501,payResult.getDetails(),null);
+			return new Result<>(501,payResult.getDetails(),null);
 		}
-		return new Result<Object>(200,null,null);
+		return new Result<>(200,null,null);
 	}
 
 	/**
@@ -483,43 +483,61 @@ public class MemberInfoController {
 		actvcodeInfoService.upgrade();//TODO
 		return new Result<>(200,null,null);
 	}
+
+	/**
+	 * 实名认证前资料检查，然后进行实名认证
+	 * @See updIsreal();
+	 * @return
+	 */
+	@Member(level =MemberInfoConstants.Level.LEVEL_0)
+	@PostMapping(path="/isRealCheck")
+	public Result<Object> isRealCheck(){
+		//TODO
+		return new Result<>(200,null,null);
+	}
 	/**
 	 * 实名认证
 	 * @return
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/updIsreal")
-	public Result<Object> updIsreal(@RequestAttribute(value="memberid"  )long memberid,
-			@RequestParam(value="bankid"  )long bankid,
-			@RequestParam(value="RealName"  )String RealName,
-			@RequestParam(value="IdNumber"  )String IdNumber,
-			@RequestParam(value="cardno"  )String cardno,
-			@RequestParam(value="mobile"  )String mobile,
-			@RequestParam(value="idpath"  )String idpath,//证件照
-			@RequestParam(value="idobverse"  )String idobverse,//身份证正面
-			@RequestParam(value="idreverse"  )String idreverse,//身份证背面
-			@RequestParam(value="cardpath"  )String cardpath){//银行卡照片
-			MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
-			//已实名
-			if(memberInfo.getIsReal().intValue()== Constants.YN.Y.getValue()){
-				return new Result<>(500,"已实名",null);
-			}
-			if(memberCardService.isExsit(cardno)){
-				return new Result<>(501,"卡片已存在",null);
-			}
-			BankInfo bankInfo=bankInfoService.getByBankid(bankid);
-			//添加一张借记卡
-			MemberCard memberCard =new MemberCard(memberid,IdNumber,bankInfo.getBankId(),RealName,cardno,mobile,bankInfo.getBankCode(),
-					bankInfo.getBankName(),bankInfo.getAbbreviation(),bankInfo.getBankLogo(),bankInfo.getCardColor(),bankInfo.getBankExtra());
-			PayResult payResult=new PayerFactory().DefaultPayer().auth(new PayerBo().new UserInfo(IdNumber,RealName),
-					new PayerBo().new CardInfo(bankInfo.getBankName(),memberCard.getProvince(),memberCard.getCity(),memberCard.getAbbreviation(), cardno,mobile,"", ""),
-					new PayerBo().new OrderInfo(UuidUtil.TradeNoBuilder(OrderInfoConstants.Prefix.MemberActiveOrder.getPrefix()), "",MemberInfoConstants.ACTIVE_PAY_AMOUNT,0,new PayerFactory().DefaultPayer().getBackUrl(),""));
-			//储蓄卡鉴权失败
-			if(!payResult.getSuccess()){
-				return new Result<>(505,payResult.getDetails(),null);
-			}
-			memberInfo.isReal(RealName, IdNumber, idpath, idobverse, idreverse,cardpath);
+	public Result<Object> updIsreal(@RequestAttribute(value="memberid")long memberid,
+		@RequestParam(value="bankid")long bankid,
+		@RequestParam(value="realName")String realName,
+		@RequestParam(value="idNumber")String idNumber,
+		@RequestParam(value="cardno")String cardno,
+		@RequestParam(value="mobile")String mobile,
+		@RequestParam(value="idpath")String idpath,//证件照
+		@RequestParam(value="idobverse")String idobverse,//身份证正面
+		@RequestParam(value="idreverse")String idreverse,//身份证背面
+		@RequestParam(value="cardpath")String cardpath){//银行卡照片
+		MemberInfo memberInfo=memberInfoService.getByMemberid(memberid);
+		//已实名
+		if(memberInfo.getIsReal().intValue()== Constants.YN.Y.getValue()){
+			return new Result<>(500,"已实名认证",null);
+		}
+		if(memberCardService.isExsit(cardno)){
+			return new Result<>(501,"卡片已存在",null);
+		}
+		BankInfo bankInfo=bankInfoService.getByBankid(bankid);
+		//添加一张借记卡
+		MemberCard memberCard =new MemberCard(memberid,idNumber,bankInfo.getBankId(),realName,cardno,mobile,bankInfo.getBankCode(),
+				bankInfo.getBankName(),bankInfo.getAbbreviation(),bankInfo.getBankLogo(),bankInfo.getCardColor(),bankInfo.getBankExtra());
+		PayResult payResult=new PayerFactory().EynonPayer().auth(new PayerBo().new UserInfo(idNumber,realName),
+				new PayerBo().new CardInfo(bankInfo.getBankName(),memberCard.getProvince(),memberCard.getCity(),memberCard.getAbbreviation(), cardno,mobile,"", ""),
+				new PayerBo().new OrderInfo(UuidUtil.TradeNoBuilder(OrderInfoConstants.Prefix.MemberActiveOrder.getPrefix()), "",MemberInfoConstants.ACTIVE_PAY_AMOUNT,0,new PayerFactory().DefaultPayer().getBackUrl(),""));
+		//储蓄卡鉴权失败
+		if(!payResult.getSuccess()){
+			log.info("memberCard auth failed");
+			return new Result<>(505,payResult.getDetails(),null);
+		}
+		memberInfo.isReal(realName, idNumber, idpath, idobverse, idreverse,cardpath);
+		try {
 			memberInfoService.isReal(memberInfo, memberCard);
+		}catch (Exception e){
+			log.error(e.getMessage());
+			return new Result<>(506,"实名认证失败",null);
+		}
 		return new Result<>(200,null,null);
 	}
 	/**
@@ -550,7 +568,7 @@ public class MemberInfoController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new Result<Object>(200,null,filePath);
+		return new Result<>(200,null,filePath);
 	}
 	/**
 	 * 上传文件接口(base64)
@@ -558,7 +576,7 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/base64")
-	public Result<Object> base64(@RequestAttribute(value="memberid"  )long memberid,
+	public Result<Object> base64(@RequestAttribute(value="memberid")long memberid,
 			@RequestParam(value="file")String base64){
 		try {
 			base64=URLDecoder.decode(base64,"UTF-8");
@@ -568,7 +586,7 @@ public class MemberInfoController {
 		Calendar calendar=Calendar.getInstance();
 		String filePath=memberid+"/"+calendar.get(Calendar.YEAR)+"/"+calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.DATE)+"/"+calendar.get(Calendar.HOUR_OF_DAY)+"/"+calendar.get(Calendar.MINUTE)+"/"+System.nanoTime()+FileUtils.getSuffixByBase64(base64);
 		FileUtils.getFileByBase64(base64,this.fileDir+filePath);
-		return new Result<Object>(200,null,filePath);
+		return new Result<>(200,null,filePath);
 	}
 	
 	/**
@@ -594,7 +612,7 @@ public class MemberInfoController {
 	 */
 	@Member(level=MemberInfoConstants.Level.LEVEL_0)
 	@PostMapping(value="/shareCount")
-	public Result<Object> shareCount(@RequestAttribute(value="memberid"  )long memberid){
+	public Result<Object> shareCount(@RequestAttribute(value="memberid")long memberid){
 		List<MemberInfo> memberInfos=memberInfoService.listByParentId(memberid);
 		MemberInfoVo.ShareCountVo shareCountVo=new MemberInfoVo().new ShareCountVo();
 		shareCountVo.setTotalCount(memberInfos.size());
@@ -641,6 +659,6 @@ public class MemberInfoController {
 		shareCountVo.setCurMonthIsRealCount(curMonthIsRealCount);
 		shareCountVo.setCurMonthLevelCount(curMonthLevelCount);
 		shareCountVo.setAll(all);
-		return new Result<Object>(200,null,shareCountVo);
+		return new Result<>(200,null,shareCountVo);
 	}
 }

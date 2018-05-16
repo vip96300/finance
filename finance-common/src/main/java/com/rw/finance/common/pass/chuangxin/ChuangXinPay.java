@@ -69,7 +69,7 @@ public class ChuangXinPay {
 		params.setProductName("商品名称");
 		params.setBankCardNo(AESUtil.AESEncode(AES_KEY,cardInfo.getPayerCardNo()));
 		params.setIdType("01");
-		params.setUserName(AESUtil.AESEncode(AES_KEY,userInfo.getPayerRealName()));
+		params.setUserName(AESUtil.AESEncode(AES_KEY,userInfo.getPayerrealName()));
 		params.setIdCode(AESUtil.AESEncode(AES_KEY,userInfo.getPayerIdNo()));
 		params.setPhone(AESUtil.AESEncode(AES_KEY, cardInfo.getPayerCardMobile()));
 		params.setCvv2(AESUtil.AESEncode(AES_KEY, cardInfo.getPayerCardCvv2()));
@@ -163,7 +163,7 @@ public class ChuangXinPay {
 		params.setVersion("V2.0");
 		params.setAccountProp("1");
 		params.setAccountNo(Base64Util.encodeData(cardInfo.getPayerCardNo()));
-		params.setAccountName(Base64Util.encodeData(userInfo.getPayerRealName()));
+		params.setAccountName(Base64Util.encodeData(userInfo.getPayerrealName()));
 		params.setBankGenneralName(cardInfo.getPayerBankName());
 		params.setBankName(cardInfo.getPayerBankName());
 		params.setBankCode(cardInfo.getPayerBankAbbreviation());
@@ -248,7 +248,7 @@ public class ChuangXinPay {
 		params.setVersion("V2.0");
 		params.setAccountProp("1");
 		params.setAccountNo(Base64Util.encodeData(cardInfo.getPayerCardNo()));
-		params.setAccountName(Base64Util.encodeData(userInfo.getPayerRealName()));
+		params.setAccountName(Base64Util.encodeData(userInfo.getPayerrealName()));
 		params.setBankGenneralName(cardInfo.getPayerBankName());
 		params.setBankName(cardInfo.getPayerBankName());
 		params.setBankCode(cardInfo.getPayerBankAbbreviation());
